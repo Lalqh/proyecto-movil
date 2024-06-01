@@ -19,4 +19,12 @@
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancelar</string>
     <string name="editar">Editar</string>
+    <string name="registro_ventas">Registro de Ventas</string>
+    <string-array name="metodos_pago">
+        <item>Efectivo</item>
+        <item>Tarjeta de Crédito</item>
+        <item>Tarjeta de Débito</item>
+    </string-array>
+    <string name="total_venta">Total de la Venta: </string>
+    <string name="registrar_venta">Registrar</string>
 </resources>
