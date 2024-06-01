@@ -10,4 +10,13 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="registro_productos">Registrar Producto</string>
+    <string name="nombre_producto">Nombre del producto: </string>
+    <string name="precio_producto">Precio: </string>
+    <string name="descripcion_producto">Descripción: </string>
+    <string name="descuento_producto">Id descuento: </string>
+    <string name="Stock">Stock: </string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="editar">Editar</string>
 </resources>
