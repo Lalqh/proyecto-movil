@@ -27,4 +27,10 @@
     </string-array>
     <string name="total_venta">Total de la Venta: </string>
     <string name="registrar_venta">Registrar</string>
+    <string name="registro_proveedores">Registro de Proveedores</string>
+    <string name="nombre_proveedor">Nombre del Proveedor</string>
+    <string name="telefono_proveedor">Teléfono</string>
+    <string name="rfc_proveedor">Rfc</string>
+    <string name="correo_proveedor">Correo</string>
+    <string name="registrar_proveedor">Registrar</string>
 </resources>
