@@ -9,7 +9,7 @@
     tools:context=".Login">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Iniciar Sesión"
@@ -19,29 +19,29 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/ivLogo"
+        app:layout_constraintBottom_toTopOf="@+id/ivLogoVentas"
         android:layout_marginBottom="16dp" />
 
     <ImageView
-        android:id="@+id/ivLogo"
+        android:id="@+id/ivLogoVentas"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/logo"
         android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/Title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etEmail"
+        app:layout_constraintBottom_toTopOf="@id/spnProduct"
         android:layout_marginBottom="24dp" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/spnProduct"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Correo Electrónico"
         android:padding="10dp"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@id/ivLogoVentas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/etPassword"
@@ -55,7 +55,7 @@
         android:hint="Contraseña"
         android:padding="10dp"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintTop_toBottomOf="@id/spnProduct"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnLogin"
@@ -89,11 +89,11 @@
         app:layout_constraintTop_toBottomOf="@id/btnLogin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnRegister"
+        app:layout_constraintBottom_toTopOf="@id/btnRegisterSell"
         android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnRegisterSell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registrarse"
