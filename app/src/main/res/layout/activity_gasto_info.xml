@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blanco_azul_vertical"
+    tools:context=".GastoInfoActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/naranja_rojo_web"
+        android:text="Eliminar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:layout_width="374dp"
+        android:layout_height="444dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/spinner_border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Expense ID -->
+        <TextView
+            android:id="@+id/tvGastoId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="ID Gasto: 12345"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- User -->
+        <TextView
+            android:id="@+id/tvUserGasto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Registro: Juan Pérez"
+            android:textSize="24sp" />
+
+        <!-- Type -->
+        <TextView
+            android:id="@+id/tvTypeGasto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Tipo: 1"
+            android:textSize="24sp" />
+
+        <!-- Amount -->
+        <TextView
+            android:id="@+id/tvGastoTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Monto: $1234.56"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Details -->
+        <TextView
+            android:id="@+id/tvDetalles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Detalles: Compra de materiales"
+            android:textSize="24sp" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Fecha: 2024-06-08"
+            android:textSize="24sp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

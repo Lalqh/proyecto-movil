@@ -1,13 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.venta.historial.HistorialVentaFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
 
-</FrameLayout>
+
+    <ImageView
+        android:id="@+id/ivLogoVentaHystory"
+        android:layout_width="68dp"
+        android:layout_height="55dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerProductSell"
+        android:layout_width="393dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bordes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoVentaHystory" />
+
+    <ScrollView
+        android:layout_width="389dp"
+        android:layout_height="511dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchSell"
+        app:layout_constraintVertical_bias="0.147">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pbLoopSell"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/sell1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white"
+                tools:drawableLeft="@drawable/baseline_arrow_right_24" />
+
+            <TextView
+                android:id="@+id/sell2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/sell3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/sell4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/sell5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/sell6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/sell7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="sell example-something about"
+                android:textColor="@color/white" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/etSearchSell"
+        android:layout_width="328dp"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/baseline_find_in_page_24"
+        android:ems="10"
+        android:hint="buscar"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerProductSell" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="112dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="36dp"
+        android:text="Producto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivLogoVentaHystory"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

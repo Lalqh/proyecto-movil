@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blanco_azul_vertical"
+    tools:context=".CategoriaInfoActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/naranja_rojo_web"
+        android:text="Eliminar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/titleCategoryInfo"
+        android:layout_width="304dp"
+        android:layout_height="37dp"
+        android:background="@drawable/spinner_border"
+        android:text="Categorias"
+
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.654"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="371dp"
+        android:layout_height="249dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/spinner_border"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleCategoryInfo">
+
+
+        <TextView
+            android:id="@+id/tvNameCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoria: nombre de categoria"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvidCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="id: id de categoria"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvfechaCategoryCreated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fecha de creacion:fecha en la que se creo la categoria"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvIsActiveCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activa: true/false"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvCategoryDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripcion: descripcion de la categoria"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="366dp"
+        android:layout_height="274dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/ivProductCategory1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img1" />
+
+            <ImageView
+                android:id="@+id/ivProductCategory2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img2" />
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

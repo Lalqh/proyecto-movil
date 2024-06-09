@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".ui.producto.categoria.CategoriaProductoFragment">
+    tools:context=".ui.usuario.list.UsersFragment">
 
 
     <ImageView
-        android:id="@+id/ivLogocategorySearch"
+        android:id="@+id/ivLogoUsersSearch"
         android:layout_width="68dp"
         android:layout_height="55dp"
         android:contentDescription="@string/app_name"
@@ -30,7 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearchCategory">
+        app:layout_constraintTop_toBottomOf="@+id/etSearchUsers">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +38,7 @@
             android:orientation="vertical">
 
             <ProgressBar
-                android:id="@+id/pbLoopcategory"
+                android:id="@+id/pbLoopusers"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="80dp"
                 android:layout_height="60dp"
@@ -47,114 +47,114 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/category1"
+                android:id="@+id/user1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white"
                 tools:drawableLeft="@drawable/baseline_arrow_right_24" />
 
             <TextView
-                android:id="@+id/category2"
+                android:id="@+id/user2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category3"
+                android:id="@+id/user3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category4"
+                android:id="@+id/user4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category5"
+                android:id="@+id/user5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category6"
+                android:id="@+id/user6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category7"
+                android:id="@+id/user7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category8"
+                android:id="@+id/user8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category9"
+                android:id="@+id/user9"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category10"
+                android:id="@+id/user10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/category11"
+                android:id="@+id/user11"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/bordes"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="category example-something about"
+                android:text="user example-something about"
                 android:textColor="@color/white" />
 
             <TextView
@@ -213,7 +213,7 @@
     </ScrollView>
 
     <EditText
-        android:id="@+id/etSearchCategory"
+        android:id="@+id/etSearchUsers"
         android:layout_width="328dp"
         android:layout_height="40dp"
         android:drawableLeft="@drawable/baseline_find_in_page_24"
@@ -223,6 +223,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogocategorySearch" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoUsersSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

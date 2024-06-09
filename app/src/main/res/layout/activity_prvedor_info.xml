@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blanco_azul_vertical"
+    tools:context=".PrvedorInfoActivity">
+
+
+        <!-- User Profile Picture -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDeleteCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/naranja_rojo_web"
+        android:text="Eliminar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+            android:id="@+id/ivProvedorLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            android:contentDescription="provedor logo"
+            android:src="@drawable/baseline_alternate_email_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- User Information -->
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toStartOf="@id/ivProvedorLogo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/tvNameProvedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Provedor: nombre del provedor"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvIdProvedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID: id del provedor"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvEmailProvedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correo: Provedor.doe@example.com"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvNumeroProvedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="numero: 3333333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvRFCProvedor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rfc: rfc del provedor"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="378dp"
+        android:layout_height="434dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.394">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pbLoopOrden"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/orden1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
+                android:background="@drawable/blanco_azul_cornercut"
+                android:textColor="@color/black"
+                tools:drawableLeft="@drawable/baseline_arrow_right_24" />
+
+            <TextView
+                android:id="@+id/orden2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
+                android:background="@drawable/blanco_azul_cornercut"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/orden3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
+                android:background="@drawable/blanco_azul_cornercut"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/orden4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
+                android:background="@drawable/blanco_azul_cornercut"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/orden5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
+                android:background="@drawable/blanco_azul_cornercut"
+                android:textColor="@color/black" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Delete Button -->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.venta.add.AddVentaFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/TitleSell"
+        android:layout_width="304dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="16dp"
+        android:text="Registro de venta"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ivLogoSell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/ivLogoSell"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="180dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toTopOf="@id/etUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.044"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/TitleSell" />
+
+    <EditText
+        android:id="@+id/etUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_person_2_24"
+        android:hint="usuario"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/spnPago"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogoSell" />
+
+    <Spinner
+        android:id="@+id/spnPago"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_exposure_24"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/etTotal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etUser" />
+
+    <EditText
+        android:id="@+id/etTotal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_exposure_24"
+        android:hint="Total"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/spnProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spnPago" />
+
+    <Spinner
+        android:id="@+id/spnProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/ic_menu_gallery"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/btnSell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etTotal" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSell"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bordes"
+        android:drawableLeft="@drawable/baseline_person_2_24"
+        android:drawablePadding="8dp"
+        android:text="Registrar"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnBackSell"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spnProduct" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBackSell"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bordes"
+        android:drawableLeft="@drawable/baseline_west_24"
+        android:drawablePadding="8dp"
+        android:text="Cancelar"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSell" />
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="279dp"
+        android:layout_height="235dp"
+        app:layout_constraintBottom_toTopOf="@+id/etUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toEndOf="@+id/ivLogoSell"
+        app:layout_constraintTop_toBottomOf="@+id/TitleSell" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
