@@ -63,10 +63,10 @@
         android:textColorHint="#F3F3F3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPrecio"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintVertical_bias="0.305" />
 
     <EditText
         android:id="@+id/edtDescuento"
@@ -112,7 +112,7 @@
         app:layout_constraintHorizontal_bias="0.738"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtStock"
-        app:layout_constraintVertical_bias="0.324" />
+        app:layout_constraintVertical_bias="0.565" />
 
     <Button
         android:id="@+id/btnCancelar"
@@ -128,5 +128,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtStock"
         app:layout_constraintVertical_bias="0.082" />
+
+    <Spinner
+        android:id="@+id/spnCategory"
+        android:layout_width="349dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bordes"
+        app:layout_constraintBottom_toTopOf="@+id/edtDescripcion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtPrecio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

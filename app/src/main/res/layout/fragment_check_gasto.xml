@@ -21,17 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinnerProvedorGasto"
-        android:layout_width="393dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bordes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogoGastoList" />
-
     <ScrollView
         android:layout_width="389dp"
         android:layout_height="511dp"
@@ -145,17 +134,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerProvedorGasto" />
-
-    <TextView
-        android:id="@+id/textDefProvedorSpinner"
-        android:layout_width="112dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="36dp"
-        android:text="Provedor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/ivLogoGastoList"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoGastoList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
