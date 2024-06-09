@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.provedor.add.ProvedorAddFragment">
+
+    <TextView
+        android:id="@+id/TitleAddProvedor"
+        android:layout_width="304dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="16dp"
+        android:text="Registro de provedor"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ivLogoAddProvedor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivLogoAddProvedor"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintTop_toBottomOf="@id/TitleAddProvedor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/etProvedor"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:id="@+id/etProvedor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_person_2_24"
+        android:hint="provedor"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/spnRFC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogoAddProvedor" />
+
+    <EditText
+        android:id="@+id/spnRFC"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_password_24"
+        android:hint="RFC"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/etProvedorNum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etProvedor" />
+
+    <EditText
+        android:id="@+id/etProvedorNum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_exposure_24"
+        android:hint="Numero de provedor"
+        android:inputType="number"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@id/etProvedorMail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spnRFC" />
+
+    <EditText
+        android:id="@+id/etProvedorMail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Correo Electrónico"
+        android:padding="10dp"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@id/etProvedorNum"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnRegisterProvedor"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@drawable/baseline_alternate_email_24" />
+
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRegisterProvedor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bordes"
+        android:drawableLeft="@drawable/baseline_person_2_24"
+        android:drawablePadding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/etProvedorMail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnBackAddProvedor"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBackAddProvedor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bordes"
+        android:drawableLeft="@drawable/baseline_west_24"
+        android:drawablePadding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/btnRegisterProvedor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

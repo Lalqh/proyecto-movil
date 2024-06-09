@@ -9,7 +9,7 @@
     tools:context=".Registro">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/etTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registro"
@@ -28,7 +28,7 @@
         android:layout_height="150dp"
         android:src="@drawable/logo"
         android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/etTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/etName"
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/ivLogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etLastName"
+        app:layout_constraintBottom_toTopOf="@id/etAge"
         android:layout_marginBottom="16dp"
         android:drawableLeft="@drawable/baseline_person_2_24" />
 
@@ -70,12 +70,12 @@
         app:layout_constraintTop_toBottomOf="@id/etLastName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etEmail"
+        app:layout_constraintBottom_toTopOf="@id/etMail"
         android:layout_marginBottom="16dp"
         android:drawableLeft="@drawable/baseline_exposure_24" />
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/etMail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Correo Electrónico"
@@ -95,7 +95,7 @@
         android:hint="Contraseña"
         android:padding="10dp"
         android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintTop_toBottomOf="@id/etMail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnRegister"

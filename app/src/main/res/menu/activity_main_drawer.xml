@@ -4,17 +4,117 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <!-- Home -->
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:title="Home" />
+
+        <!-- Usuarios -->
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="Usuarios">
+            <menu>
+                <item
+                    android:id="@+id/nav_usuarios_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_usuarios_consultar"
+                    android:title="Consultar" />
+            </menu>
+        </item>
+
+
+        <!-- Proveedores -->
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="Proveedores">
+            <menu>
+                <item
+                    android:id="@+id/nav_proveedores_consultar"
+                    android:title="Consultar" />
+                <item
+                    android:id="@+id/nav_proveedores_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_proveedores_ordenar_compra"
+                    android:title="Ordenar Compra" />
+                <item
+                    android:id="@+id/nav_proveedores_revisar_compra"
+                    android:title="Revisar Compra" />
+            </menu>
+        </item>
+
+
+        <!-- Productos -->
+        <item
+            android:title="Productos">
+            <menu>
+                <item
+                    android:id="@+id/nav_productos_catalogo"
+                    android:title="Catálogo" />
+                <item
+                    android:id="@+id/nav_productos_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_productos_añadir_oferta"
+                    android:title="Añadir Oferta" />
+                <item
+                    android:id="@+id/nav_productos_añadir_categoria"
+                    android:title="Añadir Categoría" />
+                <item
+                    android:id="@+id/nav_productos_consultar_categoria"
+                    android:title="Consultar Categoría" />
+            </menu>
+        </item>
+
+
+        <!-- Ventas -->
+        <item
+            android:title="Ventas">
+            <menu>
+                <item
+                    android:id="@+id/nav_ventas_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_ventas_consultar_historial"
+                    android:title="Consultar Historial" />
+                <item
+                    android:id="@+id/nav_ventas_reporte"
+                    android:title="Reporte" />
+            </menu>
+        </item>
+
+
+        <!-- Gastos -->
+        <item
+            android:title="Gastos">
+            <menu>
+                <item
+                    android:id="@+id/nav_gastos_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_gastos_consultar"
+                    android:title="Consultar" />
+            </menu>
+        </item>
+
+
+        <!-- Comentarios -->
+        <item
+            android:title="Comentarios">
+            <menu>
+                <item
+                    android:id="@+id/nav_comentarios_añadir"
+                    android:title="Añadir" />
+                <item
+                    android:id="@+id/nav_comentarios_consultar"
+                    android:title="Consultar" />
+            </menu>
+        </item>
+
+
+        <!-- Horario -->
+        <item
+            android:id="@+id/nav_horario"
+            android:title="Horario" />
     </group>
 </menu>

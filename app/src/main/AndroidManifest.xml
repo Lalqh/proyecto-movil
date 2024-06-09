@@ -13,6 +13,27 @@
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
         <activity
+            android:name=".CategoriaInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GastoInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrvedorInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VentaInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductoInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UserInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".horario_de_atencion"
+            android:exported="false" />
+        <activity
             android:name=".Registro"
             android:exported="false" />
         <activity
@@ -28,8 +49,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Proyecto.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Proyecto.NoActionBar" />
     </application>
 
 </manifest>

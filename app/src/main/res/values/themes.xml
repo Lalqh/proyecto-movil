@@ -14,9 +14,47 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Circular">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="semiCircular">
+        <item name="cornerSize">25%</item>
+    </style>
+
+    <style name="corteEsquina">
+        <item name="cornerSize">25dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="Rombo">
+        <item name="cornerSize">75dp</item>
+        <item name="cornerFamily">cut</item>
+    </style>
+
+    <style name="CorteEspecifico">
+        <item name="cornerSizeTopRight">75dp</item>
+        <item name="cornerFamilyTopRight">cut</item>
+        <item name="cornerSizeTopLeft">75dp</item>
+        <item name="cornerFamilyTopLeft">cut</item>
+    </style>
+
+    <style name="RedondeoEspecifico">
+        <item name="cornerSizeTopRight">75dp</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerSizeTopLeft">75dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerSizeBottomLeft">75dp</item>
+    </style>
+
     <style name="Theme.Proyecto.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MenuCategoryTitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
     <style name="Theme.Proyecto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.provedor.consult.ConstultProvedorFragment">
+
+
+
+    <ImageView
+        android:id="@+id/ivLogoProvedorSearch"
+        android:layout_width="68dp"
+        android:layout_height="55dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/logo"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ScrollView
+        android:layout_width="386dp"
+        android:layout_height="583dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchProvedor"
+        app:layout_constraintVertical_bias="0.291">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/pbLoopProvedor"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/provedor1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white"
+                tools:drawableLeft="@drawable/baseline_arrow_right_24" />
+
+            <TextView
+                android:id="@+id/provedor2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/provedor11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/bordes"
+                android:drawableLeft="@drawable/baseline_arrow_right_24"
+                android:text="provedor example-something about"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/etSearchProvedor"
+        android:layout_width="328dp"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/baseline_find_in_page_24"
+        android:ems="10"
+        android:hint="buscar"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogoProvedorSearch" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.producto.addcategoria.AddCategoriaFragment"
+    android:background="#F7A541">
+
+    <TextView
+        android:id="@+id/titleAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registro de categorias"
+        android:textColor="#FDFDFD"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.1" />
+
+    <EditText
+        android:id="@+id/edtNameCategory"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="52dp"
+        android:hint="Nombre de categoria"
+        android:inputType="text"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleAddCategory"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <EditText
+        android:id="@+id/edtDescripcionCategory"
+        android:layout_width="333dp"
+        android:layout_height="183dp"
+        android:layout_marginTop="48dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="Descripcion"
+        android:inputType="textMultiLine"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtNameCategory"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <RadioButton
+        android:id="@+id/rbActiveCategory"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="52dp"
+        android:hint="activo"
+        android:inputType="phone"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtDescripcionCategory"
+        app:layout_constraintWidth_percent="0.8" />
+
+
+
+    <Button
+        android:id="@+id/btnAddCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#5BB125"
+        android:text="@string/registrar_proveedor"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelCategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rbActiveCategory"
+        app:layout_constraintWidth_percent="0.4" />
+
+    <Button
+        android:id="@+id/btnCancelCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="116dp"
+        android:backgroundTint="#C13C3C"
+        android:text="@string/cancelar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAddCategory"
+        app:layout_constraintTop_toBottomOf="@+id/rbActiveCategory"
+        app:layout_constraintWidth_percent="0.4" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
