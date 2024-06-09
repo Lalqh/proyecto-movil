@@ -11,7 +11,7 @@
         android:id="@+id/titleAddCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registro_proveedores"
+        android:text="Registro de categorias"
         android:textColor="#FDFDFD"
         android:textSize="24sp"
         app:layout_constraintTop_toTopOf="parent"

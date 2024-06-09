@@ -152,7 +152,7 @@
         android:layout_width="112dp"
         android:layout_height="30dp"
         android:layout_marginTop="36dp"
-        android:text="Producto"
+        android:text="Historial venta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivLogoVentaHystory"

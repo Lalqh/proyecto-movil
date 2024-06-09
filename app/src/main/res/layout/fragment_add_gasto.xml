@@ -94,7 +94,7 @@
         app:layout_constraintHorizontal_bias="0.802"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtDetallesGasto"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintVertical_bias="0.298" />
 
     <Button
         android:id="@+id/btnCancelarGasto"
@@ -107,7 +107,7 @@
         app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtDetallesGasto"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintVertical_bias="0.298" />
 
     <CalendarView
         android:id="@+id/calGasto"

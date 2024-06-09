@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/blanco_azul_vertical"
+    android:background="@drawable/blanco_naranja_down"
     tools:context=".PrvedorInfoActivity">
 
 
         <!-- User Profile Picture -->
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDeleteCategory"
         android:layout_width="wrap_content"
@@ -17,7 +18,11 @@
         android:background="@drawable/naranja_rojo_web"
         android:text="Eliminar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
 
     <ImageView
             android:id="@+id/ivProvedorLogo"
@@ -80,6 +85,7 @@
 
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="378dp"
         android:layout_height="434dp"
         android:layout_marginBottom="5dp"
@@ -110,9 +116,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
 
+                android:background="@drawable/blanco_naranja_cornercut"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
                 android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
-                android:background="@drawable/blanco_azul_cornercut"
                 android:textColor="@color/black"
                 tools:drawableLeft="@drawable/baseline_arrow_right_24" />
 
@@ -122,9 +128,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
 
+                android:background="@drawable/blanco_naranja_cornercut"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
                 android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
-                android:background="@drawable/blanco_azul_cornercut"
                 android:textColor="@color/black" />
 
             <TextView
@@ -132,19 +138,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/blanco_naranja_cornercut"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
                 android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
-                android:background="@drawable/blanco_azul_cornercut"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/orden4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/blanco_naranja_cornercut"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
                 android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
-                android:background="@drawable/blanco_azul_cornercut"
                 android:textColor="@color/black" />
 
             <TextView
@@ -152,12 +158,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="15dp"
+                android:background="@drawable/blanco_naranja_cornercut"
                 android:drawableLeft="@drawable/baseline_arrow_right_24"
                 android:text="orden generica --- producto generico --- fecha prevista-- recibido: falso"
-                android:background="@drawable/blanco_azul_cornercut"
                 android:textColor="@color/black" />
-
-
 
 
         </LinearLayout>
