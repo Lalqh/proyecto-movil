@@ -4,127 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.venta.add.AddVentaFragment">
+    tools:context=".ui.venta.add.AddVentaFragment"
+    android:background="#F7A541">
 
     <TextView
-        android:id="@+id/TitleSell"
-        android:layout_width="304dp"
-        android:layout_height="37dp"
-        android:layout_marginBottom="16dp"
-        android:text="Registro de venta"
-        android:textColor="@android:color/black"
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registro_ventas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
         android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/ivLogoSell"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivLogoSell"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="180dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@id/etUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/TitleSell" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.035" />
 
     <EditText
-        android:id="@+id/etUser"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/baseline_person_2_24"
-        android:hint="usuario"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/spnPago"
+        android:id="@+id/edtUsuario"
+        android:layout_width="286dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Usuario"
+        android:inputType="text"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogoSell" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
-        android:id="@+id/spnPago"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/baseline_exposure_24"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/etTotal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUser" />
-
-    <EditText
-        android:id="@+id/etTotal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/baseline_exposure_24"
-        android:hint="Total"
-        android:inputType="numberDecimal"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/spnProduct"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnPago" />
-
-    <Spinner
-        android:id="@+id/spnProduct"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/ic_menu_gallery"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@id/btnSell"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etTotal" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSell"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bordes"
-        android:drawableLeft="@drawable/baseline_person_2_24"
-        android:drawablePadding="8dp"
-        android:text="Registrar"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnBackSell"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnProduct" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnBackSell"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bordes"
-        android:drawableLeft="@drawable/baseline_west_24"
-        android:drawablePadding="8dp"
-        android:text="Cancelar"
-        android:textColor="@android:color/white"
+        android:id="@+id/spnMetodoPago"
+        android:layout_width="295dp"
+        android:layout_height="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSell" />
+        app:layout_constraintTop_toBottomOf="@+id/edtUsuario"
+        app:layout_constraintVertical_bias="0.04" />
+
+    <EditText
+        android:id="@+id/edtTotalVenta"
+        android:layout_width="286dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/total_venta"
+        android:inputType="text"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spnMetodoPago"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/edtProducto"
+        android:layout_width="286dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="producto"
+        android:inputType="text"
+        android:textColor="#FDFDFD"
+        android:textColorHint="#F3F3F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTotalVenta"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnGuardarVenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#5BB125"
+        android:text="@string/registrar_venta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.802"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtProducto"
+        app:layout_constraintVertical_bias="0.841" />
+
+    <Button
+        android:id="@+id/btnCancelarVenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#C13C3C"
+        android:text="@string/cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtProducto"
+        app:layout_constraintVertical_bias="0.841" />
 
     <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="279dp"
-        android:layout_height="235dp"
-        app:layout_constraintBottom_toTopOf="@+id/etUser"
+        android:id="@+id/calendarView3"
+        android:layout_width="349dp"
+        android:layout_height="298dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancelarVenta"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.409"
-        app:layout_constraintStart_toEndOf="@+id/ivLogoSell"
-        app:layout_constraintTop_toBottomOf="@+id/TitleSell" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtProducto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
