@@ -9,17 +9,17 @@
 
     <TextView
         android:id="@+id/etTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registro"
-        android:textSize="24sp"
+        android:layout_width="262dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="16dp"
+        android:text="Registro de Usuarios"
         android:textColor="@android:color/black"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/ivLogo"
-        android:layout_marginBottom="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivLogo"
