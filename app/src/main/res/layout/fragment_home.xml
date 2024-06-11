@@ -8,6 +8,17 @@
     tools:context=".ui.home.HomeFragment" >
 
     <TextView
+        android:id="@+id/textHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home Text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <TextView
         android:id="@+id/titleDestacados"
         android:layout_width="304dp"
         android:layout_height="37dp"
@@ -44,7 +55,7 @@
         android:layout_width="65dp"
         android:layout_height="83dp"
         android:layout_marginTop="4dp"
-        android:src="@tools:sample/avatars"
+        android:src="@drawable/user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toStartOf="parent"
