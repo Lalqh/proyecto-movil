@@ -37,9 +37,7 @@
                 <item
                     android:id="@+id/nav_proveedores_ordenar_compra"
                     android:title="Ordenar Compra" />
-                <item
-                    android:id="@+id/nav_proveedores_revisar_compra"
-                    android:title="Revisar Compra" />
+
             </menu>
         </item>
 
@@ -77,9 +75,6 @@
                 <item
                     android:id="@+id/nav_ventas_consultar_historial"
                     android:title="Consultar Historial" />
-                <item
-                    android:id="@+id/nav_ventas_reporte"
-                    android:title="Reporte" />
             </menu>
         </item>
 
@@ -105,9 +100,6 @@
                 <item
                     android:id="@+id/nav_comentarios_añadir"
                     android:title="Añadir" />
-                <item
-                    android:id="@+id/nav_comentarios_consultar"
-                    android:title="Consultar" />
             </menu>
         </item>
 

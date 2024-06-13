@@ -12,14 +12,121 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.proyecto.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_usuarios_añadir"
+        android:name="com.example.proyecto.ui.usuario.add.AddUserFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_add_user" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.proyecto.ui.slideshow.SlideshowFragment"
+        android:id="@+id/nav_usuarios_consultar"
+        android:name="com.example.proyecto.ui.usuario.list.UsersFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_users" />
+    <fragment
+        android:id="@+id/nav_proveedores_consultar"
+        android:name="com.example.proyecto.ui.provedor.consult.ConstultProvedorFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_constult_provedor" />
+
+    <fragment
+        android:id="@+id/nav_proveedores_añadir"
+        android:name="com.example.proyecto.ui.provedor.add.ProvedorAddFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_provedor_add" />
+
+    <fragment
+        android:id="@+id/nav_proveedores_ordenar_compra"
+        android:name="com.example.proyecto.ui.provedor.order_add.AddOrderFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_add_order" />
+    <!-- Productos -->
+    <!--
+
+                    android:id="@+id/nav_productos_catalogo"
+                    android:id="@+id/nav_productos_añadir"
+                    android:id="@+id/nav_productos_añadir_oferta"
+                    android:id="@+id/nav_productos_añadir_categoria"
+                    android:id="@+id/nav_productos_consultar_categoria"
+     -->
+    <fragment
+        android:id="@+id/nav_productos_catalogo"
+        android:name="com.example.proyecto.ui.producto.catalogo.CatalogoProductoFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_catalogo_producto" />
+
+    <fragment
+        android:id="@+id/nav_productos_añadir"
+        android:name="com.example.proyecto.ui.producto.add.AddProductoFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_add_producto" />
+    <fragment
+        android:id="@+id/nav_productos_añadir_oferta"
+        android:name="com.example.proyecto.ui.producto.oferta.OfertaFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_oferta" />
+
+    <fragment
+        android:id="@+id/nav_productos_añadir_categoria"
+        android:name="com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_add_categoria" />
+
+    <fragment
+        android:id="@+id/nav_productos_consultar_categoria"
+        android:name="com.example.proyecto.ui.producto.categoria.CategoriaProductoFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_categoria_producto" />
+
+    <!-- Ventas
+                android:id="@+id/nav_ventas_añadir"
+                android:id="@+id/nav_ventas_consultar_historial"
+                android:id="@+id/nav_ventas_reporte"
+    -->
+    <fragment
+        android:id="@+id/nav_ventas_añadir"
+        android:name="com.example.proyecto.ui.venta.add.AddVentaFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_add_venta" />
+
+    <fragment
+        android:id="@+id/nav_ventas_consultar_historial"
+        android:name="com.example.proyecto.ui.venta.historial.HistorialVentaFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_historial_venta" />
+
+    <!-- Gastos
+                android:id="@+id/nav_gastos_añadir"
+                android:id="@+id/nav_gastos_consultar"
+                -->
+
+    <fragment
+        android:id="@+id/nav_gastos_añadir"
+        android:name="com.example.proyecto.ui.gasto.add.AddGastoFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_add_gasto" />
+    <fragment
+        android:id="@+id/nav_gastos_consultar"
+        android:name="com.example.proyecto.ui.gasto.consultar.CheckGastoFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_check_gasto" />
+
+    <!-- Comentarios
+                android:id="@+id/nav_comentarios_añadir"
+    -->
+
+    <fragment
+        android:id="@+id/nav_comentarios_añadir"
+        android:name="com.example.proyecto.ui.comentario.add.AddComentFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_add_coment" />
+
+    <!-- Horario
+        android:id="@+id/nav_horario" -->
+
+    <fragment
+        android:id="@+id/nav_horario"
+        android:name="com.example.proyecto.ui.horario.HorarioFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_horario" />
+
 </navigation>
