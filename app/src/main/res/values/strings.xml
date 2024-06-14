@@ -25,6 +25,11 @@
         <item>Tarjeta de Crédito</item>
         <item>Tarjeta de Débito</item>
     </string-array>
+    <string-array name="categorias">
+        <item>Enlatados</item>
+        <item>Embutidos</item>
+        <item>Lácteos</item>
+    </string-array>
     <string name="total_venta">Total de la Venta: </string>
     <string name="registrar_venta">Registrar</string>
     <string name="registro_proveedores">Registro de Proveedores</string>
