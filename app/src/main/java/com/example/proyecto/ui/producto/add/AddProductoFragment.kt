@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import com.example.proyecto.ModelClasses.Producto
+import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -71,7 +72,7 @@ class AddProductoFragment : Fragment() {
                 val descuento = edtDescuento.text.toString()
                 val stock = edtStock.text.toString()
 
-                val producto = Producto(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada)
+                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada)
 
                 saveProduct(producto)
                 Toast.makeText(requireContext(), "Producto guardado", Toast.LENGTH_SHORT).show()
@@ -124,15 +125,15 @@ class AddProductoFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun saveProduct(producto: Producto) {
+    private fun saveProduct(producto: ProductoData) {
         val sharedPreferences = requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
         // Retrieve existing products
         val gson = Gson()
         val productListJson = sharedPreferences.getString("productos", null)
-        val type = object : TypeToken<MutableList<Producto>>() {}.type
-        val productList: MutableList<Producto> = if (productListJson != null) {
+        val type = object : TypeToken<MutableList<ProductoData>>() {}.type
+        val productList: MutableList<ProductoData> = if (productListJson != null) {
             gson.fromJson(productListJson, type)
         } else {
             mutableListOf()
@@ -145,18 +146,6 @@ class AddProductoFragment : Fragment() {
         val newProductListJson = gson.toJson(productList)
         editor.putString("productos", newProductListJson)
         editor.apply()
-    }
-
-    private fun loadProducts(): List<Producto> {
-        val sharedPreferences = requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val productListJson = sharedPreferences.getString("productos", null)
-        val type = object : TypeToken<MutableList<Producto>>() {}.type
-        return if (productListJson != null) {
-            gson.fromJson(productListJson, type)
-        } else {
-            mutableListOf()
-        }
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
