@@ -11,7 +11,7 @@
         android:id="@+id/textHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Text"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,9 +22,8 @@
         android:id="@+id/titleDestacados"
         android:layout_width="304dp"
         android:layout_height="37dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/spinner_border"
-        android:text="Destacados"
+        android:text="Productos Destacados"
 
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -32,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.691"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        tools:layout_editor_absoluteY="109dp" />
 
     <TextView
         android:id="@+id/titleNormales"
@@ -49,29 +48,6 @@
         app:layout_constraintHorizontal_bias="0.588"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="65dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="217dp"
-        android:layout_height="91dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/spinner_border"
-        android:text="user name \n user data \ndata"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
 
@@ -101,6 +77,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:src="@drawable/img2" />
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img3" />
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img4" />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/img5" />
+
         </LinearLayout>
     </ScrollView>
 
@@ -123,14 +115,13 @@
                 android:id="@+id/ivNormal1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/img3" />
+                android:src="@drawable/img6" />
 
             <ImageView
                 android:id="@+id/imageNormal2"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/img4" />
+                android:src="@drawable/img7" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

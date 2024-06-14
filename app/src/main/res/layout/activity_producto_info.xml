@@ -87,7 +87,7 @@
         android:layout_height="207dp"
         android:contentDescription="producto"
         android:scaleType="centerCrop"
-        android:src="@drawable/img1"
+        android:src="@drawable/img2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

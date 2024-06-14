@@ -105,30 +105,15 @@
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/bordes"
         android:drawableLeft="@drawable/baseline_person_2_24"
         android:drawablePadding="8dp"
         android:text="Registrar usuario"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@id/btnRegresar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etPassword" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnRegresar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Regresar"
-        android:textColor="@android:color/white"
-        android:background="@drawable/bordes"
-        android:drawableLeft="@drawable/baseline_west_24"
-        android:drawablePadding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

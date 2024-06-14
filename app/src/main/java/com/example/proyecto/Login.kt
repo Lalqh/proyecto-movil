@@ -1,5 +1,6 @@
 package com.example.proyecto
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -30,7 +31,16 @@ class Login : AppCompatActivity() {
                     intent.putExtra("load_home_fragment", true)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+                    val user = getUserFromSharedPreferences(email, password)
+
+                    if (user != null) {
+                        Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("load_home_fragment", true)
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -38,5 +48,20 @@ class Login : AppCompatActivity() {
         btnExit.setOnClickListener {
             finish()
         }
+    }
+
+    private fun getUserFromSharedPreferences(email: String, password: String): Usuario? {
+        val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val storedEmail = sharedPreferences.getString("correoElectronico", "")
+        val storedPassword = sharedPreferences.getString("contrasena", "")
+
+        if (email == storedEmail && password == storedPassword) {
+            val storedName = sharedPreferences.getString("nombre", "")
+            val storedLastName = sharedPreferences.getString("apellido", "")
+            val storedAge = sharedPreferences.getInt("edad", 0)
+
+            return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", storedPassword ?: "")
+        }
+        return null
     }
 }
