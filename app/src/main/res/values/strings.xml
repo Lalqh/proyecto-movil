@@ -5,11 +5,11 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Cerrar Sesion</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">La Esquina Del Sabor</string>
+    <string name="menu_gallery">La Esquina Del Sabor</string>
+    <string name="menu_slideshow">La Esquina Del Sabor</string>
     <string name="registro_productos">Registrar Producto</string>
     <string name="nombre_producto">Nombre del producto: </string>
     <string name="precio_producto">Precio: </string>

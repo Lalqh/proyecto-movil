@@ -1,7 +1,9 @@
 package com.example.proyecto
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -34,12 +36,12 @@ class MainActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_usuarios_añadir,R.id.nav_usuarios_consultar,R.id.nav_proveedores_consultar,R.id.nav_proveedores_añadir,
-                R.id.nav_proveedores_ordenar_compra,R.id.nav_productos_catalogo,R.id.nav_productos_añadir,
-                R.id.nav_productos_añadir_oferta,R.id.nav_productos_añadir_categoria,R.id.nav_productos_consultar_categoria,
-                R.id.nav_ventas_añadir,R.id.nav_ventas_consultar_historial,
-                R.id.nav_gastos_añadir,R.id.nav_gastos_consultar,
-                R.id.nav_comentarios_añadir,R.id.nav_horario
+                R.id.nav_home, R.id.nav_usuarios_añadir, R.id.nav_usuarios_consultar, R.id.nav_proveedores_consultar, R.id.nav_proveedores_añadir,
+                R.id.nav_proveedores_ordenar_compra, R.id.nav_productos_catalogo, R.id.nav_productos_añadir,
+                R.id.nav_productos_añadir_oferta, R.id.nav_productos_añadir_categoria, R.id.nav_productos_consultar_categoria,
+                R.id.nav_ventas_añadir, R.id.nav_ventas_consultar_historial,
+                R.id.nav_gastos_añadir, R.id.nav_gastos_consultar,
+                R.id.nav_comentarios_añadir, R.id.nav_horario
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -49,6 +51,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_logout -> {
+                logout()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun logout() {
+        val intent = Intent(this, Login::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onSupportNavigateUp(): Boolean {

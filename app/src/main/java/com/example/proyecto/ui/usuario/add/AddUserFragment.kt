@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.proyecto.R
 import com.example.proyecto.Usuario
+import java.util.*
 
 class AddUserFragment : Fragment() {
 
@@ -59,12 +60,14 @@ class AddUserFragment : Fragment() {
     }
 
     private fun saveUser(user: Usuario) {
+        val userId = UUID.randomUUID().toString()
+
         val editor = sharedPreferences.edit()
-        editor.putString("nombre", user.nombre)
-        editor.putString("apellido", user.apellido)
-        editor.putInt("edad", user.edad)
-        editor.putString("correoElectronico", user.correoElectronico)
-        editor.putString("contrasena", user.contrasena)
+        editor.putString("$userId.nombre", user.nombre)
+        editor.putString("$userId.apellido", user.apellido)
+        editor.putInt("$userId.edad", user.edad)
+        editor.putString("$userId.correoElectronico", user.correoElectronico)
+        editor.putString("$userId.contrasena", user.contrasena)
         editor.apply()
     }
 
