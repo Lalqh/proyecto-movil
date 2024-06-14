@@ -52,15 +52,23 @@ class Login : AppCompatActivity() {
 
     private fun getUserFromSharedPreferences(email: String, password: String): Usuario? {
         val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-        val storedEmail = sharedPreferences.getString("correoElectronico", "")
-        val storedPassword = sharedPreferences.getString("contrasena", "")
 
-        if (email == storedEmail && password == storedPassword) {
-            val storedName = sharedPreferences.getString("nombre", "")
-            val storedLastName = sharedPreferences.getString("apellido", "")
-            val storedAge = sharedPreferences.getInt("edad", 0)
+        val allEntries = sharedPreferences.all
 
-            return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", storedPassword ?: "")
+        for ((key, _) in allEntries) {
+            if (key.endsWith(".correoElectronico")) {
+                val storedEmail = sharedPreferences.getString(key, "")
+                val userId = key.removeSuffix(".correoElectronico").removePrefix("user_")
+                val storedPassword = sharedPreferences.getString("$userId.contrasena", "")
+
+                if (email == storedEmail && password == storedPassword) {
+                    val storedName = sharedPreferences.getString("$userId.nombre", "")
+                    val storedLastName = sharedPreferences.getString("$userId.apellido", "")
+                    val storedAge = sharedPreferences.getInt("$userId.edad", 0)
+
+                    return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", storedPassword ?: "")
+                }
+            }
         }
         return null
     }
