@@ -28,6 +28,7 @@ class Login : AppCompatActivity() {
                 if (email == "administrador@gmail.com" && password == "123") {
                     Toast.makeText(this, "Bienvenido $email", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("is_admin", true)
                     intent.putExtra("load_home_fragment", true)
                     startActivity(intent)
                 } else {
@@ -36,6 +37,7 @@ class Login : AppCompatActivity() {
                     if (user != null) {
                         Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("is_admin", false)
                         intent.putExtra("load_home_fragment", true)
                         startActivity(intent)
                     } else {
