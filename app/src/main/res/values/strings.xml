@@ -17,7 +17,7 @@
     <string name="descuento_producto">Id descuento: </string>
     <string name="Stock">Stock: </string>
     <string name="guardar">Guardar</string>
-    <string name="cancelar">Cancelar</string>
+    <string name="cancelar">Borrar</string>
     <string name="editar">Editar</string>
     <string name="registro_ventas">Registro de Ventas</string>
     <string-array name="metodos_pago">
