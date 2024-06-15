@@ -16,6 +16,7 @@ import android.widget.Toast
 import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.R
+import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -34,7 +35,8 @@ class AddProductoFragment : Fragment() {
     private lateinit var spnCategory: Spinner
     private lateinit var btnGuardarProducto: Button
     private lateinit var btnCancelar: Button
-    private var categoriaSeleccionada: String = ""
+    //private var categoriaSeleccionada: String = ""
+    private lateinit var categoriaSeleccionada: AddCategoriaFragment.Category
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,20 +52,7 @@ class AddProductoFragment : Fragment() {
         btnGuardarProducto = view.findViewById(R.id.btnGuardarProducto)
         btnCancelar = view.findViewById(R.id.btnCancelar)
 
-        val categories = resources.getStringArray(R.array.categorias)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
-        spnCategory.adapter = adapter
-        spnCategory.setSelection(0)
-        categoriaSeleccionada = categories[0]
-
-        spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                categoriaSeleccionada = categories[position]
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-
+        setupSpinner()
         btnGuardarProducto.setOnClickListener {
             if (validateInputs()) {
                 val nombre = edtNombre.text.toString()
@@ -72,7 +61,7 @@ class AddProductoFragment : Fragment() {
                 val descuento = edtDescuento.text.toString()
                 val stock = edtStock.text.toString()
 
-                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada)
+                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada.name)
 
                 saveProduct(producto)
                 Toast.makeText(requireContext(), "Producto guardado", Toast.LENGTH_SHORT).show()
@@ -85,7 +74,26 @@ class AddProductoFragment : Fragment() {
 
         return view
     }
+    private fun setupSpinner() {
+        val categories = getCategoriesFromPreferences(requireContext())
 
+        if (categories.isNotEmpty()) {
+            categoriaSeleccionada = categories[0]
+
+            val categoryNames = categories.map { it.name }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spnCategory.adapter = adapter
+
+            spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                    categoriaSeleccionada = categories[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {}
+            }
+        }
+    }
     private fun validateInputs(): Boolean {
         val nombre = edtNombre.text.toString().trim()
         val precio = edtPrecio.text.toString().trim()
@@ -129,7 +137,6 @@ class AddProductoFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
-        // Retrieve existing products
         val gson = Gson()
         val productListJson = sharedPreferences.getString("productos", null)
         val type = object : TypeToken<MutableList<ProductoData>>() {}.type
@@ -139,13 +146,17 @@ class AddProductoFragment : Fragment() {
             mutableListOf()
         }
 
-        // Add new product to the list
         productList.add(producto)
 
-        // Save the updated list back to SharedPreferences
         val newProductListJson = gson.toJson(productList)
         editor.putString("productos", newProductListJson)
         editor.apply()
+    }
+    private fun getCategoriesFromPreferences(context: Context): List<AddCategoriaFragment.Category> {
+        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val json = sharedPreferences.getString("categories", null)
+        val type = object : TypeToken<List<AddCategoriaFragment.Category>>() {}.type
+        return Gson().fromJson(json, type) ?: emptyList()
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

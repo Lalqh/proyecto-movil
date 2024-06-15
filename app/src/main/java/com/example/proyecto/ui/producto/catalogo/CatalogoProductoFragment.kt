@@ -59,13 +59,13 @@ class CatalogoProductoFragment : Fragment() {
 
         // Configurar el filtro por nombre
         editTextText.addTextChangedListener {
-            filterProductos()
+            //filterProductos()
         }
 
         // Configurar el filtro por categoría
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                filterProductos()
+                //filterProductos()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
