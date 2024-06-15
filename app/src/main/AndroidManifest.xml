@@ -30,9 +30,7 @@
         <activity
             android:name=".UserInfoActivity"
             android:exported="false" />
-        <activity
-            android:name=".horario_de_atencion"
-            android:exported="false" />
+
 
         <activity
             android:name=".Login"
