@@ -45,7 +45,6 @@ class CatalogoProductoFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerViewProductos)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        //val productos = loadProducts()
         productoAdapter = ProductoAdapter(filteredProductos)
         recyclerView.adapter = productoAdapter
         val categories = loadCategories()
@@ -87,7 +86,7 @@ class CatalogoProductoFragment : Fragment() {
         }
     }
     private fun loadCategories(): List<String> {
-        val sharedPreferences = requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val gson = Gson()
         val categoryListJson = sharedPreferences.getString("categorias", null)
         val type = object : TypeToken<MutableList<String>>() {}.type

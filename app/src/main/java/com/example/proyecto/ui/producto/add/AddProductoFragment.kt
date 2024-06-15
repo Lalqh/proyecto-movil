@@ -15,6 +15,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoData
+import com.example.proyecto.ModelClasses.Utils
 import com.example.proyecto.R
 import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
@@ -36,6 +37,8 @@ class AddProductoFragment : Fragment() {
     private lateinit var btnGuardarProducto: Button
     private lateinit var btnCancelar: Button
     //private var categoriaSeleccionada: String = ""
+    private lateinit var btnBuscarProducto: Button
+    private lateinit var btnEliminarProducto: Button
     private lateinit var categoriaSeleccionada: AddCategoriaFragment.Category
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +53,8 @@ class AddProductoFragment : Fragment() {
         edtStock = view.findViewById(R.id.edtStock)
         spnCategory = view.findViewById(R.id.spnCategory)
         btnGuardarProducto = view.findViewById(R.id.btnGuardarProducto)
-        btnCancelar = view.findViewById(R.id.btnCancelar)
+        btnEliminarProducto = view.findViewById(R.id.btnCancelar)
+        btnBuscarProducto = view.findViewById(R.id.btnBuscarProducto)
 
         setupSpinner()
         btnGuardarProducto.setOnClickListener {
@@ -68,14 +72,15 @@ class AddProductoFragment : Fragment() {
             }
         }
 
-        btnCancelar.setOnClickListener {
-            Toast.makeText(requireContext(), "Acción cancelada", Toast.LENGTH_SHORT).show()
+        btnEliminarProducto.setOnClickListener {
+            eliminarProducto()
         }
+        btnBuscarProducto.setOnClickListener { buscarProducto() }
 
         return view
     }
     private fun setupSpinner() {
-        val categories = getCategoriesFromPreferences(requireContext())
+        val categories = Utils.getCategoriesFromPreferences(requireContext())
 
         if (categories.isNotEmpty()) {
             categoriaSeleccionada = categories[0]
@@ -93,6 +98,52 @@ class AddProductoFragment : Fragment() {
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
         }
+    }
+    private fun buscarProducto() {
+        val productName = edtNombre.text.toString()
+        if (productName.isBlank()) {
+            Toast.makeText(requireContext(), "Por favor ingrese el nombre del producto", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val productos = Utils.getProductosFromPreferences(requireContext())
+        val producto = productos.find { it.nombre == productName }
+        if (producto != null) {
+            Toast.makeText(requireContext(), "Producto encontrado: ${producto.nombre} en categoría ${producto.categoria}", Toast.LENGTH_SHORT).show()
+            // Mostrar los datos del producto en los EditText
+            edtNombre.setText(producto.nombre)
+            edtPrecio.setText(producto.precio)
+            edtDescripcion.setText(producto.descripcion)
+            edtDescuento.setText(producto.descuento)
+            edtStock.setText(producto.stock)
+            val categoryIndex = Utils.getCategoriesFromPreferences(requireContext()).indexOfFirst { it.name == producto.categoria }
+            spnCategory.setSelection(categoryIndex)
+        } else {
+            Toast.makeText(requireContext(), "Producto no encontrado", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun eliminarProducto() {
+        val productName = edtNombre.text.toString()
+        if (productName.isBlank()) {
+            Toast.makeText(requireContext(), "Por favor ingrese el nombre del producto", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val productos = Utils.getProductosFromPreferences(requireContext()).toMutableList()
+        val iterator = productos.iterator()
+
+        while (iterator.hasNext()) {
+            val producto = iterator.next()
+            if (producto.nombre == productName) {
+                iterator.remove()
+                Utils.saveProductosToPreferences(requireContext(),productos)
+                Toast.makeText(requireContext(), "Producto eliminado: ${producto.nombre}", Toast.LENGTH_SHORT).show()
+                return
+            }
+        }
+
+        Toast.makeText(requireContext(), "Producto no encontrado", Toast.LENGTH_SHORT).show()
     }
     private fun validateInputs(): Boolean {
         val nombre = edtNombre.text.toString().trim()
@@ -151,12 +202,14 @@ class AddProductoFragment : Fragment() {
         val newProductListJson = gson.toJson(productList)
         editor.putString("productos", newProductListJson)
         editor.apply()
+        limpiar()
     }
-    private fun getCategoriesFromPreferences(context: Context): List<AddCategoriaFragment.Category> {
-        val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        val json = sharedPreferences.getString("categories", null)
-        val type = object : TypeToken<List<AddCategoriaFragment.Category>>() {}.type
-        return Gson().fromJson(json, type) ?: emptyList()
+    private fun limpiar(){
+        edtNombre.setText("")
+        edtPrecio.setText("")
+        edtDescripcion.setText("")
+        edtDescuento.setText("")
+        edtStock.setText("")
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

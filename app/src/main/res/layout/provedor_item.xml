@@ -14,7 +14,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/textViewNombre"
+            android:id="@+id/tvProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
@@ -24,48 +24,31 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewPrecio"
+            android:id="@+id/tvMailProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/melocoton"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewNombre" />
+            app:layout_constraintTop_toBottomOf="@id/tvProvedorI" />
 
         <TextView
-            android:id="@+id/textViewDescripcion"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewPrecio" />
-
-        <TextView
-            android:id="@+id/textViewDescuento"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewDescripcion" />
-
-        <TextView
-            android:id="@+id/textViewStock"
+            android:id="@+id/tvPhoneProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewDescuento" />
+            app:layout_constraintTop_toBottomOf="@id/tvMailProvedorI" />
 
         <TextView
-            android:id="@+id/textViewCategoria"
+            android:id="@+id/tvRFCProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/melocoton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewStock" />
+            app:layout_constraintTop_toBottomOf="@id/tvPhoneProvedorI" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -1,12 +1,22 @@
 package com.example.proyecto.ui.provedor.consult
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto.ModelClasses.ProductoData
+import com.example.proyecto.ModelClasses.ProvedorAdapter
+import com.example.proyecto.ModelClasses.ProvedorData
 import com.example.proyecto.R
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ConstultProvedorFragment : Fragment() {
 
@@ -16,11 +26,47 @@ class ConstultProvedorFragment : Fragment() {
 
     private lateinit var viewModel: ConstultProvedorViewModel
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var provedorAdapter: ProvedorAdapter
+    private lateinit var searchBar: EditText
+    private var provedores: List<ProvedorData> = listOf()
+    private var filteredProvedores: List<ProvedorData> = listOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_constult_provedor, container, false)
+        val view =inflater.inflate(R.layout.fragment_constult_provedor, container, false)
+
+        searchBar = view.findViewById(R.id.etSearchProvedor)
+        recyclerView = view.findViewById(R.id.recyclerViewProvedores)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        provedorAdapter = ProvedorAdapter(filteredProvedores)
+        recyclerView.adapter = provedorAdapter
+
+
+        provedores = loadProvedores()
+        filteredProvedores = provedores
+
+        provedorAdapter.updateProvedores(filteredProvedores)
+
+        searchBar.addTextChangedListener {
+            //filterProvedores()
+        }
+        return view
+    }
+
+    private fun loadProvedores(): List<ProvedorData> {
+        val sharedPreferences = requireContext().getSharedPreferences("ProvedorPrefs", Context.MODE_PRIVATE)
+        val gson = Gson()
+        val productListJson = sharedPreferences.getString("provedores", null)
+        val type = object : TypeToken<MutableList<ProvedorData>>() {}.type
+        return if (productListJson != null) {
+            gson.fromJson(productListJson, type)
+        } else {
+            mutableListOf()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

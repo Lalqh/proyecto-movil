@@ -7,6 +7,16 @@
     tools:context=".ui.provedor.consult.ConstultProvedorFragment">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewProvedores"
+        android:layout_width="403dp"
+        android:layout_height="544dp"
+        android:background="@drawable/spinner_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchProvedor" />
 
     <ImageView
         android:id="@+id/ivLogoProvedorSearch"
@@ -22,6 +32,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <!--
     <ScrollView
         android:layout_width="386dp"
         android:layout_height="583dp"
@@ -161,7 +172,7 @@
 
         </LinearLayout>
     </ScrollView>
-
+    -->
     <EditText
         android:id="@+id/etSearchProvedor"
         android:layout_width="328dp"
