@@ -10,26 +10,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.ProvedorData
 import com.example.proyecto.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class ProvedorAddFragment : Fragment() {
-    private lateinit var nombre:EditText
-    private lateinit var mail:EditText
-    private lateinit var phone:EditText
-    private lateinit var rfc:EditText
-    private lateinit var add:Button
-    private lateinit var cancel:Button
+
 
     companion object {
         fun newInstance() = ProvedorAddFragment()
     }
 
     private lateinit var viewModel: ProvedorAddViewModel
-
+    private lateinit var nombre:EditText
+    private lateinit var mail:EditText
+    private lateinit var phone:EditText
+    private lateinit var rfc:EditText
+    private lateinit var add:Button
+    private lateinit var cancel:Button
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,8 +41,9 @@ class ProvedorAddFragment : Fragment() {
         rfc=view.findViewById(R.id.edtRFC)
         add=view.findViewById(R.id.btnRegistrarProveedor)
         cancel=view.findViewById(R.id.btnCancelarProveedor)
+        //Toast.makeText(requireContext(), "Probando toast", Toast.LENGTH_SHORT).show()
+        add.setOnClickListener{
 
-        add.setOnClickListener {
             if (validateInputs()) {
                 val nombre_ = nombre.text.toString()
                 val mail_ = mail.text.toString()
@@ -56,8 +56,11 @@ class ProvedorAddFragment : Fragment() {
                 Toast.makeText(requireContext(), "Provedor guardado", Toast.LENGTH_SHORT).show()
             }
         }
+        cancel.setOnClickListener{
+            Toast.makeText(requireContext(), "cancelo el registro", Toast.LENGTH_SHORT).show()
+        }
 
-        return inflater.inflate(R.layout.fragment_provedor_add, container, false)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
