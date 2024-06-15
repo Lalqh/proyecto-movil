@@ -12,4 +12,5 @@ object Utils {
         val type = object : TypeToken<List<AddCategoriaFragment.Category>>() {}.type
         return Gson().fromJson(json, type) ?: emptyList()
     }
+
 }
