@@ -1,6 +1,7 @@
 package com.example.proyecto.ui.usuario.list
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.proyecto.R
+import com.example.proyecto.UserInfoActivity
 import com.example.proyecto.Usuario
 
 class UsersFragment : Fragment() {
@@ -43,6 +45,12 @@ class UsersFragment : Fragment() {
 
                 if (user != null) {
                     user1.text = "Nombre: ${user.nombre}\nApellido: ${user.apellido}\nEdad: ${user.edad}\nCorreo: ${user.correoElectronico}"
+
+                    user1.setOnClickListener {
+                        val intent = Intent(requireContext(), UserInfoActivity::class.java)
+                        intent.putExtra("usuario", user)
+                        startActivity(intent)
+                    }
                 } else {
                     user1.text = "Usuario no encontrado"
                 }
@@ -66,8 +74,9 @@ class UsersFragment : Fragment() {
                     val storedName = sharedPreferences.getString("$userId.nombre", "")
                     val storedLastName = sharedPreferences.getString("$userId.apellido", "")
                     val storedAge = sharedPreferences.getInt("$userId.edad", 0)
+                    val storedPassword = sharedPreferences.getString("$userId.contrasena", "")
 
-                    return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", "")
+                    return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", storedPassword ?: "")
                 }
             }
         }
