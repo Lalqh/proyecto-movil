@@ -13,10 +13,6 @@ import java.util.Calendar
 
 class HorarioFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HorarioFragment()
-    }
-
     private lateinit var viewModel: HorarioViewModel
 
     override fun onCreateView(
@@ -25,8 +21,6 @@ class HorarioFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_horario, container, false)
-        Toast.makeText(view.context, "prueba de contexto", Toast.LENGTH_LONG).show()
-
 
         val calendarView: CalendarView = view.findViewById(R.id.cvDate)
         val calendar = Calendar.getInstance()
@@ -34,8 +28,7 @@ class HorarioFragment : Fragment() {
         calendar.set(2024, Calendar.JUNE, 1)
         calendarView.date = calendar.timeInMillis
 
-
-        calendarView.setOnDateChangeListener { view_, year, month, dayOfMonth ->
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance()
             selectedDate.set(year, month, dayOfMonth)
 
@@ -43,8 +36,8 @@ class HorarioFragment : Fragment() {
                 val formattedDate = "$dayOfMonth/${month + 1}/$year"
                 val message1 = "Fecha: $formattedDate\nDía disponible: Lunes"
                 val message2 = "Horario: 9:00 am a 3:00 pm\nDirección: C. Nueva Escocia 1885"
-                Toast.makeText(view.context, message1, Toast.LENGTH_SHORT).show()
-                Toast.makeText(view.context, message2, Toast.LENGTH_LONG).show()
+                Toast.makeText(view.context, "$message1", Toast.LENGTH_LONG).show()
+                Toast.makeText(view.context, "$message2", Toast.LENGTH_LONG).show()
             } else {
                 val formattedDate = "$dayOfMonth/${month + 1}/$year"
                 val message = "Fecha: $formattedDate\nDía no disponible"
@@ -52,8 +45,7 @@ class HorarioFragment : Fragment() {
             }
         }
 
-
-        return inflater.inflate(R.layout.fragment_horario, container, false)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -61,5 +53,4 @@ class HorarioFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HorarioViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }
