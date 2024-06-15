@@ -1,9 +1,42 @@
 package com.example.proyecto
 
-class Usuario(
-    var nombre: String,
-    var apellido: String,
-    var edad: Int,
-    var correoElectronico: String,
-    var contrasena: String
-)
+import android.os.Parcel
+import android.os.Parcelable
+
+data class Usuario(
+    val nombre: String,
+    val apellido: String,
+    val edad: Int,
+    val correoElectronico: String,
+    val contrasena: String
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(nombre)
+        parcel.writeString(apellido)
+        parcel.writeInt(edad)
+        parcel.writeString(correoElectronico)
+        parcel.writeString(contrasena)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Usuario> {
+        override fun createFromParcel(parcel: Parcel): Usuario {
+            return Usuario(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Usuario?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
