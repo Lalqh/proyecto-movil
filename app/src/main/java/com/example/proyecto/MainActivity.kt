@@ -40,12 +40,32 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_proveedores_ordenar_compra, R.id.nav_productos_catalogo, R.id.nav_productos_añadir,
                 R.id.nav_productos_añadir_oferta, R.id.nav_productos_añadir_categoria, R.id.nav_productos_consultar_categoria,
                 R.id.nav_ventas_añadir, R.id.nav_ventas_consultar_historial,
-                R.id.nav_gastos_añadir, R.id.nav_gastos_consultar,
-                R.id.nav_comentarios_añadir, R.id.nav_horario
+                R.id.nav_gastos_añadir, R.id.nav_gastos_consultar, R.id.nav_horario
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val isAdmin = intent.getBooleanExtra("is_admin", false)
+        adjustMenu(navView, isAdmin)
+    }
+
+    private fun adjustMenu(navView: NavigationView, isAdmin: Boolean) {
+        val menu = navView.menu
+
+        menu.findItem(R.id.nav_usuarios_añadir).isVisible = isAdmin
+        menu.findItem(R.id.nav_usuarios_consultar).isVisible = isAdmin
+        menu.findItem(R.id.nav_proveedores_consultar).isVisible = isAdmin
+        menu.findItem(R.id.nav_proveedores_añadir).isVisible = isAdmin
+        menu.findItem(R.id.nav_proveedores_ordenar_compra).isVisible = isAdmin
+        menu.findItem(R.id.nav_productos_catalogo).isVisible = isAdmin
+        menu.findItem(R.id.nav_productos_añadir).isVisible = isAdmin
+        menu.findItem(R.id.nav_productos_añadir_oferta).isVisible = isAdmin
+        menu.findItem(R.id.nav_productos_añadir_categoria).isVisible = isAdmin
+        menu.findItem(R.id.nav_productos_consultar_categoria).isVisible = isAdmin
+        menu.findItem(R.id.nav_gastos_añadir).isVisible = isAdmin
+        menu.findItem(R.id.nav_gastos_consultar).isVisible = isAdmin
+        menu.findItem(R.id.nav_horario)?.isVisible = !isAdmin
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
