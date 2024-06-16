@@ -35,4 +35,32 @@ object Utils {
         val type = object : TypeToken<List<ProvedorData>>() {}.type
         return Gson().fromJson(json, type) ?: emptyList()
     }
+
+    fun getUsersFromSharedPreferences(context: Context): List<String> {
+        val sharedPreferences = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val allEntries = sharedPreferences.all
+        val users = mutableListOf<String>()
+
+        for ((key, _) in allEntries) {
+            if (key.endsWith(".nombre")) {
+                val userId = key.removeSuffix(".nombre").removePrefix("user_")
+                val storedName = sharedPreferences.getString("$userId.nombre", "")
+                users.add(storedName ?: "")
+            }
+        }
+        return users
+    }
+    fun getUsersIDFromSharedPreferences(context: Context): List<String> {
+        val sharedPreferences = context.getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        val allEntries = sharedPreferences.all
+        val users = mutableListOf<String>()
+
+        for ((key, _) in allEntries) {
+            if (key.endsWith(".nombre")) {
+                val userId = key.removeSuffix(".nombre").removePrefix("user_")
+                users.add(userId)
+            }
+        }
+        return users
+    }
 }
