@@ -22,14 +22,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.035" />
 
-    <EditText
-        android:id="@+id/edtUserGasto"
+    <Spinner
+        android:id="@+id/spnUserGasto"
         android:layout_width="286dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="text"
         android:textColor="#FDFDFD"
         android:textColorHint="#F3F3F3"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUserGasto"
+        app:layout_constraintTop_toBottomOf="@+id/spnUserGasto"
         app:layout_constraintVertical_bias="0.04" />
 
     <EditText
@@ -101,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#C13C3C"
-        android:text="@string/cancelar"
+        android:text="Cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.208"
