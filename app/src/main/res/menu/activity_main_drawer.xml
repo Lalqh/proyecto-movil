@@ -43,9 +43,6 @@
                     android:id="@+id/nav_productos_añadir"
                     android:title="Añadir" />
                 <item
-                    android:id="@+id/nav_productos_añadir_oferta"
-                    android:title="Añadir Oferta" />
-                <item
                     android:id="@+id/nav_productos_añadir_categoria"
                     android:title="Añadir Categoría" />
                 <item
@@ -75,7 +72,6 @@
                     android:title="Consultar" />
             </menu>
         </item>
-
         <item
             android:id="@+id/nav_horario"
             android:title="Horario" />

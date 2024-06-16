@@ -26,7 +26,7 @@ class Login : AppCompatActivity() {
                 Toast.makeText(this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 if (email == "administrador@gmail.com" && password == "123") {
-                    Toast.makeText(this, "Bienvenido $email", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Bienvenido Administrador", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     intent.putExtra("is_admin", true)
                     intent.putExtra("load_home_fragment", true)

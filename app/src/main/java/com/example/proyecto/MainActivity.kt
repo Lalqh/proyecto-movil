@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.nav_proveedores_ordenar_compra).isVisible = isAdmin
         menu.findItem(R.id.nav_productos_catalogo).isVisible = isAdmin
         menu.findItem(R.id.nav_productos_añadir).isVisible = isAdmin
-        menu.findItem(R.id.nav_productos_añadir_oferta).isVisible = isAdmin
         menu.findItem(R.id.nav_productos_añadir_categoria).isVisible = isAdmin
         menu.findItem(R.id.nav_productos_consultar_categoria).isVisible = isAdmin
         menu.findItem(R.id.nav_gastos_añadir).isVisible = isAdmin

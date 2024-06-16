@@ -24,7 +24,7 @@
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/baseline_find_in_page_24"
         android:ems="10"
-        android:hint="buscar"
+        android:hint="Ingrese un correo"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
