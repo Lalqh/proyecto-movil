@@ -35,7 +35,7 @@ class ConstultProvedorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_constult_provedor, container, false)
+        val view = inflater.inflate(R.layout.fragment_constult_provedor, container, false)
 
         searchBar = view.findViewById(R.id.etSearchProvedor)
         recyclerView = view.findViewById(R.id.recyclerViewProvedores)
@@ -44,14 +44,14 @@ class ConstultProvedorFragment : Fragment() {
         provedorAdapter = ProvedorAdapter(filteredProvedores)
         recyclerView.adapter = provedorAdapter
 
-
         provedores = loadProvedores()
         filteredProvedores = provedores
 
         provedorAdapter.updateProvedores(filteredProvedores)
 
         searchBar.addTextChangedListener {
-            //filterProvedores()
+            val searchText = it.toString()
+            filterProvedores(searchText)
         }
         return view
     }
@@ -72,6 +72,15 @@ class ConstultProvedorFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ConstultProvedorViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    private fun filterProvedores(query: String) {
+        filteredProvedores = if (query.isEmpty()) {
+            provedores
+        } else {
+            provedores.filter { it.nombre.contains(query, ignoreCase = true) }
+        }
+        provedorAdapter.updateProvedores(filteredProvedores)
     }
 
 }
