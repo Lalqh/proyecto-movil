@@ -30,7 +30,7 @@ class AddOrderFragment : Fragment() {
         val producto: String,
         val cantidad: String,
         val monto: String,
-        val pagado: String,
+        var pagado: String,
         val delivery:String
     )
     companion object {
@@ -86,6 +86,7 @@ class AddOrderFragment : Fragment() {
                 val month = calendar.get(Calendar.MONTH) // Note: Month is 0-based
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
                 showToast("se salvo el gasto fecha de entrega: ${year}/${month}/${day}")
+                showToast(Utils.getOrdersFromPreferences(requireContext())[0].provedor)
 
             }
         }

@@ -65,7 +65,6 @@
         app:layout_constraintWidth_percent="0.8" />
 
 
-
     <Button
         android:id="@+id/btnAddCategory"
         android:layout_width="0dp"
@@ -74,9 +73,11 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="#5BB125"
         android:text="@string/registrar_proveedor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCancelCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rbActiveCategory"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.4" />
 
     <Button
@@ -87,11 +88,12 @@
         android:layout_marginTop="116dp"
         android:backgroundTint="#C13C3C"
         android:text="@string/cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnAddCategory"
         app:layout_constraintTop_toBottomOf="@+id/rbActiveCategory"
+        app:layout_constraintVertical_bias="0.0"
         app:layout_constraintWidth_percent="0.4" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

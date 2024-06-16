@@ -1,5 +1,6 @@
 package com.example.proyecto.ModelClasses
 
+import android.content.Intent
 import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyecto.PrvedorInfoActivity
 import com.example.proyecto.R
+import com.google.gson.Gson
 
 data class ProvedorData(
     var nombre: String,
@@ -47,7 +50,13 @@ class ProvedorAdapter(private var provedores:List<ProvedorData>):RecyclerView.Ad
             phoneTextView.text = "telefono: ${provedor.phone}"
             rfcTextView.text = "RFC: ${provedor.rfc}"
             itemView.setOnClickListener{
-                Toast.makeText(itemView.context, "TODO abrir info", Toast.LENGTH_SHORT).show()
+                val gson=Gson()
+                val provedorJson=gson.toJson(provedor)
+
+                val intent = Intent(itemView.context, PrvedorInfoActivity::class.java)
+                intent.putExtra("provedor", provedorJson)
+                itemView.context.startActivity(intent)
+                Toast.makeText(itemView.context, provedorJson, Toast.LENGTH_SHORT).show()
             }
         }
     }

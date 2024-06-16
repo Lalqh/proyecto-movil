@@ -88,7 +88,7 @@ class AddGastoFragment : Fragment() {
 
         val newGastoListJson = gson.toJson(gastoList)
         editor.putString("gastos", newGastoListJson)
-        
+
         editor.apply()
         mostrarToast("Se guardó un gasto")
         limpiar()

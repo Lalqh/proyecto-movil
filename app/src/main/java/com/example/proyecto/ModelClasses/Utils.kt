@@ -3,6 +3,7 @@ package com.example.proyecto.ModelClasses
 import android.content.Context
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
+import com.example.proyecto.ui.provedor.order_add.AddOrderFragment.OrdenData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -10,6 +11,7 @@ object Utils {
     private val PRODUCT_PREFS = "ProductPrefs"
     private val CATEGORIES_PREFS = "CategoriesPrefs"
     private val PROVEDOR_PREFS="ProvedorPrefs"
+    private val ORDEN_PREFS="OrderPrefs"
     fun getCategoriesFromPreferences(context: Context): List<AddCategoriaFragment.Category> {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val json = sharedPreferences.getString("categories", null)
@@ -20,6 +22,12 @@ object Utils {
         val sharedPreferences = context.getSharedPreferences(PRODUCT_PREFS, Context.MODE_PRIVATE)
         val json = sharedPreferences.getString("productos", null)
         val type = object : TypeToken<List<ProductoData>>() {}.type
+        return Gson().fromJson(json, type) ?: emptyList()
+    }
+    fun getOrdersFromPreferences(context: Context): List<OrdenData> {
+        val sharedPreferences = context.getSharedPreferences(ORDEN_PREFS, Context.MODE_PRIVATE)
+        val json = sharedPreferences.getString("ordenes", null)
+        val type = object : TypeToken<List<OrdenData>>() {}.type
         return Gson().fromJson(json, type) ?: emptyList()
     }
      fun saveProductosToPreferences(context: Context,productos: List<ProductoData>) {
