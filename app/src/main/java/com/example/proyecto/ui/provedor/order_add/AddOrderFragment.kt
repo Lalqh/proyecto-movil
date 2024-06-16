@@ -13,12 +13,14 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.ProvedorData
 import com.example.proyecto.ModelClasses.Utils
 import com.example.proyecto.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.Calendar
 
 
 class AddOrderFragment : Fragment() {
@@ -27,7 +29,9 @@ class AddOrderFragment : Fragment() {
         val provedor: String,
         val producto: String,
         val cantidad: String,
-        val monto: String
+        val monto: String,
+        val pagado: String,
+        val delivery:String
     )
     companion object {
         fun newInstance() = AddOrderFragment()
@@ -58,10 +62,61 @@ class AddOrderFragment : Fragment() {
         add=view.findViewById(R.id.btnGuardarOrd)
         cancel=view.findViewById(R.id.btnCancelarOrd)
 
+
+
+        add.setOnClickListener{
+            if (validateInputs()){
+                val cantidad = etCantidad.text.toString().trim()
+                val monto = etMonto.text.toString().trim()
+                val order=OrdenData(selectedProvedor.rfc,selectedProduct.nombre,cantidad, monto,"0",cal.date.toString())
+                saveOrder(order)
+
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = cal.date
+
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH) // Note: Month is 0-based
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                showToast("se salvo el gasto fecha de entrega: ${year}/${month}/${day}")
+
+            }
+        }
+
         setupSpinnerProcucto()
         setupSpinnerProvedor()
 
         return view
+    }
+
+    private fun validateInputs(): Boolean {
+        val cantidad = etCantidad.text.toString().trim()
+        val monto = etMonto.text.toString().trim()
+
+
+        if (cantidad.isEmpty()) {
+            showToast("Por favor, ingrese la cantidad de producto de la orden.")
+            return false
+        }
+
+        if (monto.isEmpty()) {
+            showToast("Por favor, ingrese el monto total de la orden.")
+            return false
+        }
+
+        if (selectedProvedor==null){
+            showToast("no hay provedores, registre el provedor antes de registrar la orden.")
+            return false
+        }
+        if (selectedProduct==null){
+            showToast("no hay productos, registre el provedor antes de registrar la orden.")
+            return false
+        }
+
+        return true
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveOrder(order: OrdenData) {
@@ -83,6 +138,8 @@ class AddOrderFragment : Fragment() {
         editor.putString("ordenes", newProvedorListJson)
         editor.apply()
     }
+
+
 
     private fun setupSpinnerProvedor() {
         val procedores = Utils.getProvedoresFromPreferences(requireContext())
