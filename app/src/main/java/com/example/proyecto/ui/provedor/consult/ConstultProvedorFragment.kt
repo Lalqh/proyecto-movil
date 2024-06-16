@@ -11,7 +11,6 @@ import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.ProvedorAdapter
 import com.example.proyecto.ModelClasses.ProvedorData
 import com.example.proyecto.R
@@ -60,10 +59,10 @@ class ConstultProvedorFragment : Fragment() {
     private fun loadProvedores(): List<ProvedorData> {
         val sharedPreferences = requireContext().getSharedPreferences("ProvedorPrefs", Context.MODE_PRIVATE)
         val gson = Gson()
-        val productListJson = sharedPreferences.getString("provedores", null)
+        val provedorListJson = sharedPreferences.getString("provedores", null)
         val type = object : TypeToken<MutableList<ProvedorData>>() {}.type
-        return if (productListJson != null) {
-            gson.fromJson(productListJson, type)
+        return if (provedorListJson != null) {
+            gson.fromJson(provedorListJson, type)
         } else {
             mutableListOf()
         }
