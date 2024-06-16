@@ -47,7 +47,7 @@
         android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="@string/precio_producto"
-        android:inputType="text"
+        android:inputType="numberDecimal"
         android:textColor="#FDFDFD"
         android:textColorHint="#F3F3F3"
         app:layout_constraintEnd_toEndOf="parent"

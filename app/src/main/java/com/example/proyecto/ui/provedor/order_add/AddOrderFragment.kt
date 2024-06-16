@@ -90,6 +90,10 @@ class AddOrderFragment : Fragment() {
 
             }
         }
+        cancel.setOnClickListener{
+            etCantidad.setText("")
+            etMonto.setText("")
+        }
 
         setupSpinnerProcucto()
         setupSpinnerProvedor()

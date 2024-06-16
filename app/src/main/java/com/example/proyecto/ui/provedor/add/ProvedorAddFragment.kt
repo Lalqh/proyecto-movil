@@ -58,6 +58,10 @@ class ProvedorAddFragment : Fragment() {
         }
         cancel.setOnClickListener{
             Toast.makeText(requireContext(), "cancelo el registro", Toast.LENGTH_SHORT).show()
+            nombre.setText("")
+            mail.setText("")
+            phone.setText("")
+            rfc.setText("")
         }
 
         return view
