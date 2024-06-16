@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.Venta
 import com.example.proyecto.R
@@ -43,8 +44,11 @@ class AddVentaFragment : Fragment() {
         val spinner: Spinner = view.findViewById(R.id.spnMetodoPago)
         spinner.adapter = adapter
 
-        val usuarios = getAllUsersFromSharedPreferences().toTypedArray()
-        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, usuarios)
+        val usuarios = getAllUsersFromSharedPreferences().toMutableList()
+        usuarios.add(0, "Seleccione un usuario")
+        usuarios.add(1, "Administrador")
+        val usuariosArray = usuarios.toTypedArray()
+        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, usuariosArray)
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         val spinner2: Spinner = view.findViewById(R.id.spnUsuario)
@@ -62,21 +66,39 @@ class AddVentaFragment : Fragment() {
 
         val btnGuardarVenta: Button = view.findViewById(R.id.btnGuardarVenta)
         btnGuardarVenta.setOnClickListener {
-            val selectedUserIndex = spinner2.selectedItemPosition
-            val selectedProductIndex = spinner3.selectedItemPosition
 
-            val selectedUser = usuarios[selectedUserIndex]
-            val selectedProduct = productos[selectedProductIndex]
+            try {
+                val selectedUserIndex = spinner2.selectedItemPosition
+                val selectedProductIndex = spinner3.selectedItemPosition
 
-            val idUsuario = selectedUser
-            val idProducto = selectedProduct.nombre
-            val metodoPago = spinner.selectedItem.toString()
-            val fecha = calendario.date.toString()
-            val cantidad = total.text.toString().toInt()
-            val total = selectedProduct.precio.toFloat() * cantidad
+                if (selectedUserIndex == 0 || selectedProductIndex < 0) {
+                    return@setOnClickListener
+                }
 
-            val venta = Venta(idUsuario, idProducto, metodoPago, fecha, cantidad, total)
-            saveVenta(venta)
+                val selectedUser = usuarios[selectedUserIndex]
+                val selectedProduct = productos[selectedProductIndex]
+
+                val idUsuario = selectedUser
+                val idProducto = selectedProduct.nombre
+                val metodoPago = spinner.selectedItem.toString()
+                val fecha = calendario.date.toString()
+                val cantidad = try {
+                    total.text.toString().toInt()
+                } catch (e: NumberFormatException) {
+                    return@setOnClickListener
+                }
+
+                val totalVenta = selectedProduct.precio.toFloat() * cantidad
+
+                val venta = Venta(idUsuario, idProducto, metodoPago, fecha, cantidad, totalVenta)
+                saveVenta(venta)
+                Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
+                //Limpiar inputs
+                total.setText("")
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // Optionally, show an error message to the user, e.g., using a Toast
+            }
         }
     }
 
