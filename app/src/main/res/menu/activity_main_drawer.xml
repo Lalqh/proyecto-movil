@@ -4,13 +4,10 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <!-- Home -->
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Home" />
-
-        <!-- Usuarios -->
+            android:icon="@drawable/logo"
+            android:title="La Esquina del sabor" />
         <item
             android:title="Usuarios">
             <menu>
@@ -22,9 +19,6 @@
                     android:title="Consultar" />
             </menu>
         </item>
-
-
-        <!-- Proveedores -->
         <item
             android:title="Proveedores">
             <menu>
@@ -37,12 +31,8 @@
                 <item
                     android:id="@+id/nav_proveedores_ordenar_compra"
                     android:title="Ordenar Compra" />
-
             </menu>
         </item>
-
-
-        <!-- Productos -->
         <item
             android:title="Productos">
             <menu>
@@ -53,9 +43,6 @@
                     android:id="@+id/nav_productos_añadir"
                     android:title="Añadir" />
                 <item
-                    android:id="@+id/nav_productos_añadir_oferta"
-                    android:title="Añadir Oferta" />
-                <item
                     android:id="@+id/nav_productos_añadir_categoria"
                     android:title="Añadir Categoría" />
                 <item
@@ -63,9 +50,6 @@
                     android:title="Consultar Categoría" />
             </menu>
         </item>
-
-
-        <!-- Ventas -->
         <item
             android:title="Ventas">
             <menu>
@@ -77,9 +61,6 @@
                     android:title="Consultar Historial" />
             </menu>
         </item>
-
-
-        <!-- Gastos -->
         <item
             android:title="Gastos">
             <menu>
@@ -91,20 +72,6 @@
                     android:title="Consultar" />
             </menu>
         </item>
-
-
-        <!-- Comentarios -->
-        <item
-            android:title="Comentarios">
-            <menu>
-                <item
-                    android:id="@+id/nav_comentarios_añadir"
-                    android:title="Añadir" />
-            </menu>
-        </item>
-
-
-        <!-- Horario -->
         <item
             android:id="@+id/nav_horario"
             android:title="Horario" />

@@ -22,22 +22,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.035" />
 
-    <EditText
-        android:id="@+id/edtUsuario"
-        android:layout_width="286dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="text"
-        android:textColor="#FDFDFD"
-        android:textColorHint="#F3F3F3"
+    <Spinner
+        android:id="@+id/spnUsuario"
+        android:layout_width="295dp"
+        android:layout_height="35dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <Spinner
         android:id="@+id/spnMetodoPago"
@@ -46,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtUsuario"
+        app:layout_constraintTop_toBottomOf="@+id/spnUsuario"
         app:layout_constraintVertical_bias="0.04" />
 
     <EditText
@@ -66,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spnMetodoPago"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
+    <Spinner
         android:id="@+id/edtProducto"
         android:layout_width="286dp"
         android:layout_height="40dp"

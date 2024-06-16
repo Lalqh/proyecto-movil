@@ -71,22 +71,6 @@
         app:layout_constraintVertical_bias="0.305" />
 
     <EditText
-        android:id="@+id/edtDescuento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/descuento_producto"
-        android:inputType="number"
-        android:textColor="#FDFDFD"
-        android:textColorHint="#F3F3F3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtDescripcion"
-        app:layout_constraintVertical_bias="0.09" />
-
-    <EditText
         android:id="@+id/edtStock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -99,7 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtDescuento"
+        app:layout_constraintTop_toBottomOf="@+id/edtDescripcion"
         app:layout_constraintVertical_bias="0.12" />
 
     <Button
@@ -111,10 +95,10 @@
         android:text="@string/guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.738"
+        app:layout_constraintHorizontal_bias="0.774"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtStock"
-        app:layout_constraintVertical_bias="0.565" />
+        app:layout_constraintVertical_bias="0.274" />
 
     <Button
         android:id="@+id/btnCancelar"
@@ -126,10 +110,25 @@
         android:text="@string/cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.401"
+        app:layout_constraintHorizontal_bias="0.302"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtStock"
-        app:layout_constraintVertical_bias="0.082" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnBuscarProducto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#007BFF"
+        android:text="Buscar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGuardarProducto"
+        app:layout_constraintVertical_bias="0.333"
+        app:layout_constraintWidth_percent="0.4" />
 
     <Spinner
         android:id="@+id/spnCategory"
