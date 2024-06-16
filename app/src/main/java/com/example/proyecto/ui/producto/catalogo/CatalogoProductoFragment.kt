@@ -18,6 +18,7 @@ import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoAdapter
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.R
+import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -48,7 +49,8 @@ class CatalogoProductoFragment : Fragment() {
         productoAdapter = ProductoAdapter(filteredProductos)
         recyclerView.adapter = productoAdapter
         val categories = loadCategories()
-        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        val stringCategories = categories.map { it.name }
+        val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, stringCategories)
         spinner.adapter = spinnerAdapter
 
         // Cargar productos desde SharedPreferences
@@ -58,13 +60,13 @@ class CatalogoProductoFragment : Fragment() {
 
         // Configurar el filtro por nombre
         editTextText.addTextChangedListener {
-            //filterProductos()
+            filterProductos()
         }
 
         // Configurar el filtro por categoría
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                //filterProductos()
+                filterProductos()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -85,11 +87,11 @@ class CatalogoProductoFragment : Fragment() {
             mutableListOf()
         }
     }
-    private fun loadCategories(): List<String> {
+    private fun loadCategories(): List<AddCategoriaFragment.Category> {
         val sharedPreferences = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val gson = Gson()
-        val categoryListJson = sharedPreferences.getString("categorias", null)
-        val type = object : TypeToken<MutableList<String>>() {}.type
+        val categoryListJson = sharedPreferences.getString("categories", null)
+        val type = object : TypeToken<MutableList<AddCategoriaFragment.Category>>() {}.type
         return if (categoryListJson != null) {
             gson.fromJson(categoryListJson, type)
         } else {
