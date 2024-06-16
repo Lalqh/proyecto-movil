@@ -43,7 +43,7 @@ class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Ada
 
         fun bind(producto: ProductoData) {
             nombreTextView.text = "Nombre: ${producto.nombre}"
-            precioTextView.text = "Precio: $${producto.precio}"
+            precioTextView.text = "Precio: ${producto.precio}"
             descripcionTextView.text = "Descripción: ${producto.descripcion}"
             descuentoTextView.text = "Descuento: ${producto.descuento}"
             stockTextView.text = "Stock: ${producto.stock}"

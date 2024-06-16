@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 object Utils {
     private val PRODUCT_PREFS = "ProductPrefs"
     private val CATEGORIES_PREFS = "CategoriesPrefs"
+    private val PROVEDOR_PREFS="ProvedorPrefs"
     fun getCategoriesFromPreferences(context: Context): List<AddCategoriaFragment.Category> {
         val sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         val json = sharedPreferences.getString("categories", null)
@@ -27,5 +28,11 @@ object Utils {
         val json = Gson().toJson(productos)
         editor.putString("productos", json)
         editor.apply()
+    }
+    fun getProvedoresFromPreferences(context: Context): List<ProvedorData> {
+        val sharedPreferences = context.getSharedPreferences(PROVEDOR_PREFS, Context.MODE_PRIVATE)
+        val json = sharedPreferences.getString("provedores", null)
+        val type = object : TypeToken<List<ProvedorData>>() {}.type
+        return Gson().fromJson(json, type) ?: emptyList()
     }
 }

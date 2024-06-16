@@ -96,22 +96,22 @@ class ProvedorAddFragment : Fragment() {
         val rfc = rfc.text.toString().trim()
 
         if (nombre.isEmpty()) {
-            showToast("Por favor, ingrese el nombre del producto.")
+            showToast("Por favor, ingrese el nombre del provedor.")
             return false
         }
 
         if (mail.isEmpty()) {
-            showToast("Por favor, ingrese el precio del producto.")
+            showToast("Por favor, ingrese el email.")
             return false
         }
 
         if (phone.isEmpty()) {
-            showToast("Por favor, ingrese la descripción del producto.")
+            showToast("Por favor, ingrese el numero telefonico.")
             return false
         }
 
         if (rfc.isEmpty()) {
-            showToast("Por favor, ingrese el descuento del producto.")
+            showToast("Por favor, ingrese el rfc.")
             return false
         }
 

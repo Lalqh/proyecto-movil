@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
 
@@ -14,6 +15,8 @@ data class ProvedorData(
     var phone: String,
     var rfc: String
 )
+
+
 class ProvedorAdapter(private var provedores:List<ProvedorData>):RecyclerView.Adapter<ProvedorAdapter.ProvedorViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -40,9 +43,12 @@ class ProvedorAdapter(private var provedores:List<ProvedorData>):RecyclerView.Ad
 
         fun bind(provedor: ProvedorData) {
             nombreTextView.text = "Nombre: ${provedor.nombre}"
-            mailTextView.text = "email: $${provedor.mail}"
+            mailTextView.text = "email: ${provedor.mail}"
             phoneTextView.text = "telefono: ${provedor.phone}"
             rfcTextView.text = "RFC: ${provedor.rfc}"
+            itemView.setOnClickListener{
+                Toast.makeText(itemView.context, "TODO abrir info", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
