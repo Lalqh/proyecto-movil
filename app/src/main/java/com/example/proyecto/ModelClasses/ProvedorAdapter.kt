@@ -56,7 +56,7 @@ class ProvedorAdapter(private var provedores:List<ProvedorData>):RecyclerView.Ad
                 val intent = Intent(itemView.context, PrvedorInfoActivity::class.java)
                 intent.putExtra("provedor", provedorJson)
                 itemView.context.startActivity(intent)
-                Toast.makeText(itemView.context, provedorJson, Toast.LENGTH_SHORT).show()
+
             }
         }
     }
