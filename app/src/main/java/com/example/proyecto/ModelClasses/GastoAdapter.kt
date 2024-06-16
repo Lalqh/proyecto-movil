@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
 import java.util.Calendar
@@ -56,9 +55,7 @@ class GastoAdapter(private var gastos: List<GastoData>) : RecyclerView.Adapter<G
             val day = calendar.get(Calendar.DAY_OF_MONTH)
             dateTextView.text = "Fecha: ${year}/${month}/${day}"
             detallesTextView.text = "Detalles: ${gasto.detalles}"
-            itemView.setOnClickListener {
-                Toast.makeText(itemView.context, "TODO abrir info", Toast.LENGTH_SHORT).show()
-            }
+
         }
     }
 }
