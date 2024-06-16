@@ -21,108 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:layout_width="389dp"
-        android:layout_height="511dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearchGasto"
-        app:layout_constraintVertical_bias="0.147">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ProgressBar
-                android:id="@+id/pbLoopGasto"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/gasto1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white"
-                tools:drawableLeft="@drawable/baseline_arrow_right_24" />
-
-            <TextView
-                android:id="@+id/gasto2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/gasto3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/gasto4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/gasto5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/gasto6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/gasto7"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/bordes"
-                android:drawableLeft="@drawable/baseline_arrow_right_24"
-                android:text="gasto example-something about"
-                android:textColor="@color/white" />
-
-
-
-
-        </LinearLayout>
-    </ScrollView>
-
     <EditText
         android:id="@+id/etSearchGasto"
         android:layout_width="328dp"
@@ -135,5 +33,15 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivLogoGastoList" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvGasto"
+        android:layout_width="367dp"
+        android:layout_height="597dp"
+        android:background="@drawable/spinner_border"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchGasto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,6 +48,8 @@ class AddOrderFragment : Fragment() {
 
     private lateinit var selectedProvedor:ProvedorData
     private lateinit var selectedProduct:ProductoData
+    private var selectedDate: Long = Calendar.getInstance().timeInMillis // Variable to store selected date
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +64,12 @@ class AddOrderFragment : Fragment() {
         add=view.findViewById(R.id.btnGuardarOrd)
         cancel=view.findViewById(R.id.btnCancelarOrd)
 
+        cal.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val calendar = Calendar.getInstance()
+            calendar.set(year, month, dayOfMonth)
+            selectedDate = calendar.timeInMillis
+        }
+
 
 
         add.setOnClickListener{
@@ -72,7 +80,7 @@ class AddOrderFragment : Fragment() {
                 saveOrder(order)
 
                 val calendar = Calendar.getInstance()
-                calendar.timeInMillis = cal.date
+                calendar.timeInMillis = selectedDate
 
                 val year = calendar.get(Calendar.YEAR)
                 val month = calendar.get(Calendar.MONTH) // Note: Month is 0-based
