@@ -12,21 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto"
         tools:targetApi="31">
-        <activity
-            android:name=".CategoriaInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GastoInfoActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".PrvedorInfoActivity"
             android:exported="false" />
-        <activity
-            android:name=".VentaInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProductoInfoActivity"
-            android:exported="false" />
+
+
         <activity
             android:name=".UserInfoActivity"
             android:exported="false" />
