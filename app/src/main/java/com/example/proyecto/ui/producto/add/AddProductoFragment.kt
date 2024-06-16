@@ -49,7 +49,7 @@ class AddProductoFragment : Fragment() {
         edtNombre = view.findViewById(R.id.edtNombre)
         edtPrecio = view.findViewById(R.id.edtPrecio)
         edtDescripcion = view.findViewById(R.id.edtDescripcion)
-        edtDescuento = view.findViewById(R.id.edtDescuento)
+        //edtDescuento = view.findViewById(R.id.edtDescuento)
         edtStock = view.findViewById(R.id.edtStock)
         spnCategory = view.findViewById(R.id.spnCategory)
         btnGuardarProducto = view.findViewById(R.id.btnGuardarProducto)
@@ -62,7 +62,7 @@ class AddProductoFragment : Fragment() {
                 val nombre = edtNombre.text.toString()
                 val precio = edtPrecio.text.toString()
                 val descripcion = edtDescripcion.text.toString()
-                val descuento = edtDescuento.text.toString()
+                val descuento = "0"
                 val stock = edtStock.text.toString()
 
                 val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada.name)
@@ -114,7 +114,7 @@ class AddProductoFragment : Fragment() {
             edtNombre.setText(producto.nombre)
             edtPrecio.setText(producto.precio)
             edtDescripcion.setText(producto.descripcion)
-            edtDescuento.setText(producto.descuento)
+            //edtDescuento.setText(producto.descuento)
             edtStock.setText(producto.stock)
             val categoryIndex = Utils.getCategoriesFromPreferences(requireContext()).indexOfFirst { it.name == producto.categoria }
             spnCategory.setSelection(categoryIndex)
@@ -149,7 +149,7 @@ class AddProductoFragment : Fragment() {
         val nombre = edtNombre.text.toString().trim()
         val precio = edtPrecio.text.toString().trim()
         val descripcion = edtDescripcion.text.toString().trim()
-        val descuento = edtDescuento.text.toString().trim()
+        val descuento = "0"
         val stock = edtStock.text.toString().trim()
 
         if (nombre.isEmpty()) {
@@ -208,7 +208,7 @@ class AddProductoFragment : Fragment() {
         edtNombre.setText("")
         edtPrecio.setText("")
         edtDescripcion.setText("")
-        edtDescuento.setText("")
+        //edtDescuento.setText("")
         edtStock.setText("")
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
