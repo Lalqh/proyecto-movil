@@ -25,7 +25,6 @@ class CheckGastoFragment : Fragment() {
     private lateinit var viewModel: CheckGastoViewModel
 
     private lateinit var rvGasto:RecyclerView
-    private lateinit var searchBar:EditText
 
     private lateinit var gastoAdapter:GastoAdapter
     private var gastos: List<GastoData> = listOf()
@@ -37,7 +36,7 @@ class CheckGastoFragment : Fragment() {
     ): View? {
         val view=inflater.inflate(R.layout.fragment_check_gasto, container, false)
         rvGasto=view.findViewById(R.id.rvGasto)
-        searchBar=view.findViewById(R.id.etSearchGasto)
+
         rvGasto.layoutManager = LinearLayoutManager(requireContext())
 
         gastoAdapter = GastoAdapter(filteredGastos)
