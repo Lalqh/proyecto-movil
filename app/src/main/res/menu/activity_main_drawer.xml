@@ -73,7 +73,15 @@
             </menu>
         </item>
         <item
-            android:id="@+id/nav_horario"
-            android:title="Horario" />
+            android:title="Información de la Tienda">
+            <menu>
+                <item
+                    android:id="@+id/ubicacion"
+                    android:title="Ubicación" />
+                <item
+                    android:id="@+id/nav_horario"
+                    android:title="Horario" />
+            </menu>
+        </item>
     </group>
 </menu>

@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Ignorar todos los archivos secrets.xml
+**/secrets.xml
+# Ignorar el archivo secrets.xml en la carpeta values
+app/src/main/res/values/secrets.xml

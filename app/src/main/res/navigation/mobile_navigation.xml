@@ -128,5 +128,10 @@
         android:name="com.example.proyecto.ui.horario.HorarioFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_horario" />
+    <fragment
+        android:id="@+id/ubicacion"
+        android:name="com.example.proyecto.Ubicacion"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_ubicacion" />
 
 </navigation>
