@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.nav_gastos_añadir).isVisible = isAdmin
         menu.findItem(R.id.nav_gastos_consultar).isVisible = isAdmin
         menu.findItem(R.id.nav_horario)?.isVisible = !isAdmin
+        menu.findItem(R.id.ubicacion)?.isVisible = !isAdmin
+        menu.findItem(R.id.ubi_proveedores)?.isVisible = isAdmin
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

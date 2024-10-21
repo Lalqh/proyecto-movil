@@ -133,5 +133,10 @@
         android:name="com.example.proyecto.Ubicacion"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_ubicacion" />
+    <fragment
+        android:id="@+id/ubi_proveedores"
+        android:name="com.example.proyecto.Ubi_proveedores"
+        android:label="Ubicacion Proveedores"
+        tools:layout="@layout/fragment_ubi_proveedores" />
 
 </navigation>
