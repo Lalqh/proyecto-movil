@@ -13,17 +13,6 @@
         android:background="@drawable/bordes"
         android:padding="8dp">
 
-        <!-- New ImageView for displaying the image -->
-        <ImageView
-            android:id="@+id/ivProvedorImagen"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="Imagen del Proveedor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/tvProvedorI"
             android:layout_width="0dp"

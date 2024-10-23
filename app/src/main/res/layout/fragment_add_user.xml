@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.usuario.add.AddUserFragment">
 
-
     <TextView
         android:id="@+id/etTitle"
         android:layout_width="262dp"
@@ -25,7 +24,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/user"
         android:contentDescription="@string/app_name"
         app:layout_constraintTop_toBottomOf="@id/etTitle"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,9 +96,22 @@
         app:layout_constraintTop_toBottomOf="@id/etMail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnRegister"
+        app:layout_constraintBottom_toTopOf="@id/btnImagen"
         android:layout_marginBottom="16dp"
         android:drawableLeft="@drawable/baseline_password_24" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:drawableLeft="@drawable/ic_menu_camera"
+        android:id="@+id/btnImagen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Agregar imagen"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bordes"
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
@@ -114,6 +126,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etPassword" />
+        app:layout_constraintTop_toBottomOf="@id/btnImagen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
