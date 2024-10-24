@@ -99,8 +99,11 @@ class AddVentaFragment : Fragment() {
                 Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
                 limpiarCampos()
 
-                val intent = Intent(requireContext(), QRViewActivity::class.java)
-                startActivity(intent) // Iniciar la nueva actividad
+                if (metodoPago==="Transferencia"){
+                    val intent = Intent(requireContext(), QRViewActivity::class.java)
+                    startActivity(intent) // Iniciar la nueva actividad
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show()
