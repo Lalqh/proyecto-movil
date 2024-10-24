@@ -6,5 +6,6 @@ class Venta (
     var metodoPago: String,
     var fecha: String,
     var cantidad: Int,
-    var total: Float
+    var total: Float,
+    var pagado:Boolean=true
 )

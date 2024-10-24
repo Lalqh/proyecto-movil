@@ -22,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- New Button for loading image -->
+
         <Button
             android:id="@+id/btnCargarImagen"
             android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="#FFA500"
             android:text="Cargar Imagen"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnProductQR"
+            app:layout_constraintHorizontal_bias="0.163"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivProductoImagen" />
 
@@ -43,16 +45,16 @@
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnCargarImagen"
-            app:layout_constraintVertical_bias="0.091" />
+            app:layout_constraintVertical_bias="0.148" />
 
         <EditText
             android:id="@+id/edtNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="@string/nombre_producto"
             android:inputType="text"
@@ -162,5 +164,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edtPrecio" />
+
+        <Button
+            android:id="@+id/btnProductQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="28dp"
+            android:text="escanear qr"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProductoImagen"
+            app:layout_constraintVertical_bias="0.313" />
+
+        <TextView
+            android:id="@+id/tvQR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="codigo QR"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.661"
+            app:layout_constraintStart_toEndOf="@+id/btnCargarImagen"
+            app:layout_constraintTop_toBottomOf="@+id/btnProductQR" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

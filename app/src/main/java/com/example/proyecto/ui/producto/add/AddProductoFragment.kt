@@ -1,6 +1,7 @@
 package com.example.proyecto.ui.producto.add
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,7 +13,10 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.Utils
@@ -20,6 +24,7 @@ import com.example.proyecto.R
 import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.zxing.integration.android.IntentIntegrator
 
 class AddProductoFragment : Fragment() {
 
@@ -40,6 +45,9 @@ class AddProductoFragment : Fragment() {
     private lateinit var btnBuscarProducto: Button
     private lateinit var btnEliminarProducto: Button
     private lateinit var categoriaSeleccionada: AddCategoriaFragment.Category
+    private lateinit var scanProduct:Button
+    private lateinit var code:TextView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +63,33 @@ class AddProductoFragment : Fragment() {
         btnGuardarProducto = view.findViewById(R.id.btnGuardarProducto)
         btnEliminarProducto = view.findViewById(R.id.btnCancelar)
         btnBuscarProducto = view.findViewById(R.id.btnBuscarProducto)
+        scanProduct=view.findViewById(R.id.btnProductQR)
+        code=view.findViewById(R.id.tvQR)
+
+        // Inicializar el ActivityResultLauncher
+        scanResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val intentResult = IntentIntegrator.parseActivityResult(
+                result.resultCode, result.data
+            )
+
+            // Validar que no esté vacío
+            if (intentResult != null) {
+                if (intentResult.contents == null) {
+                    // Mostrar mensaje de lectura cancelada
+                    Toast.makeText(requireContext(), "Lectura cancelada", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Mostrar el código leído y guardarlo en el TextView
+                    Toast.makeText(requireContext(), "Código Leído", Toast.LENGTH_SHORT).show()
+                    code.text = intentResult.contents
+                }
+            } else {
+                Toast.makeText(requireContext(), "Error al escanear el código", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        scanProduct.setOnClickListener { escanearCodigo() }
 
         setupSpinner()
         btnGuardarProducto.setOnClickListener {
@@ -65,7 +100,7 @@ class AddProductoFragment : Fragment() {
                 val descuento = "0"
                 val stock = edtStock.text.toString()
 
-                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada.name)
+                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada.name,"code here")
 
                 saveProduct(producto)
                 Toast.makeText(requireContext(), "Producto guardado", Toast.LENGTH_SHORT).show()
@@ -211,6 +246,41 @@ class AddProductoFragment : Fragment() {
         //edtDescuento.setText("")
         edtStock.setText("")
     }
+    // Función para iniciar el escaneo
+    private fun escanearCodigo() {
+        val intentIntegrator = IntentIntegrator.forSupportFragment(this)
+        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+        intentIntegrator.setPrompt("Lector de códigos")
+        intentIntegrator.setCameraId(0)
+        intentIntegrator.setBeepEnabled(true)
+        intentIntegrator.setBarcodeImageEnabled(true)
+
+        // Iniciar escaneo usando el launcher
+        scanResultLauncher.launch(intentIntegrator.createScanIntent())
+    }
+
+    /*override*/ fun onActivityResultDeprecated(requestCode:Int, resultCode:Int, data: Intent?) {
+//Instancia para recibir el resultado (Lectura de código)
+
+        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+//Validar que no este vacia
+        if (intentResult != null) {
+//Validar leyo información
+            if (intentResult.contents == null) {
+//Mensaje informativo - no hubo datos
+                Toast.makeText(requireContext(),"Lectura cancelada", Toast.LENGTH_SHORT).show()
+            } else {
+//Mensaje informativo - si hubo datos
+                Toast.makeText(requireContext(),"Codigo Leido", Toast.LENGTH_SHORT).show()
+//Colocar el codigo en la caja de texto
+                code.setText(intentResult.contents)
+            } //if-else = null
+        }else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }//if-else !=null
+    }//onActivityResult
+
+    private lateinit var scanResultLauncher: ActivityResultLauncher<Intent>
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AddProductoViewModel::class.java)
