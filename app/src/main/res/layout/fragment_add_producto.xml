@@ -19,6 +19,7 @@
             android:contentDescription="Imagen del Producto"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:src="@drawable/logo"
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- New Button for loading image -->
