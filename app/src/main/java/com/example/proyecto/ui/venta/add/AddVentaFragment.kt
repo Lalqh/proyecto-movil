@@ -1,6 +1,7 @@
 package com.example.proyecto.ui.venta.add
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.Venta
+import com.example.proyecto.QRViewActivity
 import com.example.proyecto.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -90,9 +92,18 @@ class AddVentaFragment : Fragment() {
                 val totalVenta = selectedProduct.precio.toFloat() * cantidad
 
                 val venta = Venta(idUsuario, idProducto, metodoPago, fecha, cantidad, totalVenta)
+                if (metodoPago==="Transferencia"){
+                    venta.pagado=false
+                }
                 saveVenta(venta)
                 Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
                 limpiarCampos()
+
+                if (metodoPago==="Transferencia"){
+                    val intent = Intent(requireContext(), QRViewActivity::class.java)
+                    startActivity(intent) // Iniciar la nueva actividad
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show()
@@ -164,6 +175,11 @@ class AddVentaFragment : Fragment() {
 
         val newVentaListJson = gson.toJson(ventaList)
         editor.putString("ventas", newVentaListJson)
+        val ventaJson = gson.toJson(venta)
+
+        // Guardar el JSON en SharedPreferences con la clave "venta"
+        editor.putString("venta", ventaJson)
+        //editor.apply() // Aplicar los cambios
         editor.apply()
     }
 

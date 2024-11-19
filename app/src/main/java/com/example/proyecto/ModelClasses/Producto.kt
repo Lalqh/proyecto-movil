@@ -7,6 +7,8 @@ class Producto
     var descripcion: String,
     var descuento: String,
     var stock: String,
-    var categoriaSeleccionada: String
+    var categoriaSeleccionada: String,
+    var code:String
+
 ) {
 }
