@@ -67,4 +67,6 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.9.3")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation ("org.json:json:20210307")
+    implementation ("mysql:mysql-connector-java:5.1.48")
+    implementation ("org.mindrot:jbcrypt:0.4")
 }

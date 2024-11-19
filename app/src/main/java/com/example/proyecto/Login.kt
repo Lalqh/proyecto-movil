@@ -17,6 +17,7 @@ class Login : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -25,6 +26,7 @@ class Login : AppCompatActivity() {
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val btnExit = findViewById<Button>(R.id.btnExit)
+        val MySQLConnection = MySQLConnection(this)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -39,19 +41,18 @@ class Login : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
-                if (email == "administrador@gmail.com" && password == "123") {
-                    loginAsAdmin()
-                } else {
-                    val user = getUserFromSharedPreferences(email, password)
-
-                    if (user != null) {
-                        Toast.makeText(this, "Bienvenido ${user.nombre}", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("is_admin", false)
-                        intent.putExtra("load_home_fragment", true)
-                        startActivity(intent)
+                MySQLConnection.selectDataAsync(
+                    "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?",
+                    email, password
+                ) { user ->
+                    if (user.isNotEmpty()) {
+                        // Verificar si el usuario es administrador
+                        val isAdmin = user[0]["tipo_usuario"] == "1"
+                        if (isAdmin) {
+                            loginAsAdmin()
+                        }
                     } else {
-                        Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "El correo o la contraseña son incorrectos.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

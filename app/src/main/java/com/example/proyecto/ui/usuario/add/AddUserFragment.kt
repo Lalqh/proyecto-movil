@@ -9,21 +9,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
 import com.example.proyecto.Usuario
+import com.example.proyecto.Utils.EncryptionUtils
 import java.util.*
 
 class AddUserFragment : Fragment() {
 
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var etName: EditText
     private lateinit var etLastName: EditText
     private lateinit var etAge: EditText
     private lateinit var etMail: EditText
     private lateinit var etPassword: EditText
+    private lateinit var mySQLConnection: MySQLConnection
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -35,8 +39,7 @@ class AddUserFragment : Fragment() {
         etMail = view.findViewById(R.id.etMail)
         etPassword = view.findViewById(R.id.etPassword)
         val btnRegister = view.findViewById<Button>(R.id.btnRegister)
-
-        sharedPreferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
+        mySQLConnection = MySQLConnection(requireContext())
 
         btnRegister.setOnClickListener {
             val name = etName.text.toString()
@@ -51,8 +54,6 @@ class AddUserFragment : Fragment() {
                 val age = ageStr.toInt()
                 val user = Usuario(name, lastName, age, email, password)
                 saveUser(user)
-                Toast.makeText(requireContext(), "Usuario registrado", Toast.LENGTH_SHORT).show()
-                clearFields()
             }
         }
 
@@ -60,17 +61,19 @@ class AddUserFragment : Fragment() {
     }
 
     private fun saveUser(user: Usuario) {
-        val userId = UUID.randomUUID().toString()
+        val passwordEncrypted = EncryptionUtils.encryptPassword(user.contrasena)
+        val query = "INSERT INTO usuarios (nombre, apellido, correo, contrasena, tipo_usuario, edad) VALUES (?, ?, ?, ?, ?, ?)"
+        val params = arrayOf(user.nombre, user.apellido, user.correoElectronico, passwordEncrypted, "0", user.edad.toString())
+        mySQLConnection.insertDataAsync(query, *params) { result ->
+            if (result) {
+                Toast.makeText(context, "Datos insertados correctamente", Toast.LENGTH_SHORT).show()
+                clearFields()
+            } else {
+                Toast.makeText(context, "Error al insertar datos", Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        val editor = sharedPreferences.edit()
-        editor.putString("$userId.nombre", user.nombre)
-        editor.putString("$userId.apellido", user.apellido)
-        editor.putInt("$userId.edad", user.edad)
-        editor.putString("$userId.correoElectronico", user.correoElectronico)
-        editor.putString("$userId.contrasena", user.contrasena)
-        editor.apply()
     }
-
     private fun clearFields() {
         etName.text.clear()
         etLastName.text.clear()
