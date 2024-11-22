@@ -1,11 +1,23 @@
 package com.example.proyecto
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,11 +26,29 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        const val NOTIFICATION_PERMISSION_CODE = 1001
+    }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val handler = Handler(Looper.getMainLooper())
+    private val notificationMessages = listOf(
+        "¡Aprovecha la promoción! 20% de descuento en todos los productos mexicanos.",
+        "¡Venta nocturna! Descuentos especiales en productos seleccionados.",
+        "¡Nuevo lanzamiento! Prueba nuestros nuevos productos mexicanos.",
+        "¡Oferta especial! Compra 2 y lleva 3 en productos seleccionados.",
+        "¡Evento especial! Ven y disfruta de nuestras degustaciones gratuitas.",
+        "¡Promoción limitada! 15% de descuento en productos de temporada.",
+        "¡Descuento exclusivo! 10% de descuento en tu primera compra.",
+        "¡Gran venta! Hasta 50% de descuento en productos seleccionados.",
+        "¡Evento de fin de semana! Ofertas especiales solo por este fin de semana.",
+        "¡Promoción de verano! Descuentos en productos frescos y naturales."
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +78,9 @@ class MainActivity : AppCompatActivity() {
 
         val isAdmin = intent.getBooleanExtra("is_admin", false)
         adjustMenu(navView, isAdmin)
+
+        createNotificationChannel()
+        scheduleNotifications()
     }
 
     private fun adjustMenu(navView: NavigationView, isAdmin: Boolean) {
@@ -95,5 +128,66 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("promo_channel", name, importance).apply {
+                description = descriptionText
+            }
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun scheduleNotifications() {
+        val notificationInterval = 60000L
+
+        handler.post(object : Runnable {
+            override fun run() {
+                showRandomNotification()
+                handler.postDelayed(this, notificationInterval)
+            }
+        })
+    }
+
+    private fun showRandomNotification() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+            val randomMessage = notificationMessages[Random.nextInt(notificationMessages.size)]
+
+            val intent = Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+            val notificationBuilder = NotificationCompat.Builder(this, "promo_channel")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Promoción Especial")
+                .setContentText(randomMessage)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
+            with(NotificationManagerCompat.from(this)) {
+                notify(Random.nextInt(), notificationBuilder.build())
+            }
+        } else {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == NOTIFICATION_PERMISSION_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                showRandomNotification()
+            } else {
+                Toast.makeText(this, "Permiso de notificación denegado", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
