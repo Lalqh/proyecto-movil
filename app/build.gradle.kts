@@ -70,4 +70,5 @@ dependencies {
     implementation ("org.json:json:20210307")
     implementation ("mysql:mysql-connector-java:5.1.48")
     implementation ("org.mindrot:jbcrypt:0.4")
+    implementation ("com.airbnb.android:lottie:5.2.0")
 }

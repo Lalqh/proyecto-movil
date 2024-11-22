@@ -68,7 +68,9 @@ class MySQLConnection(private val context: Context) {
                 while (resultSet.next()) {
                     val row = mutableMapOf<String, String>()
                     for (i in 1..resultSet.metaData.columnCount) {
-                        row[resultSet.metaData.getColumnName(i)] = resultSet.getString(i)
+                        val columnName = resultSet.metaData.getColumnName(i)
+                        val columnValue = resultSet.getString(i)
+                        row[columnName] = columnValue ?: ""
                     }
                     result.add(row)
                 }

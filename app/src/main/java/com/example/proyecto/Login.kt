@@ -8,15 +8,18 @@ import android.nfc.NfcAdapter
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proyecto.Utils.EncryptionUtils
 
 class Login : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
-
+    private lateinit var loadingOverlay: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,7 @@ class Login : AppCompatActivity() {
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val btnExit = findViewById<Button>(R.id.btnExit)
+        loadingOverlay = findViewById(R.id.loadingOverlay)
         val MySQLConnection = MySQLConnection(this)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -41,19 +45,41 @@ class Login : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
+                loadingOverlay.visibility = View.VISIBLE
                 MySQLConnection.selectDataAsync(
-                    "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?",
-                    email, password
+                    "SELECT * FROM usuarios WHERE correo = ?",
+                    email
                 ) { user ->
+
                     if (user.isNotEmpty()) {
-                        // Verificar si el usuario es administrador
-                        val isAdmin = user[0]["tipo_usuario"] == "1"
-                        if (isAdmin) {
-                            loginAsAdmin()
+                        // validar contrasña
+                        val pass = user[0]["contrasena"]
+                        val passOk = EncryptionUtils.checkPassword(password, pass.toString())
+
+                        if (passOk) {
+                            val tipo_usaurio = user[0]["tipo_usuario"]
+                            val id = user[0]["id"].toString().toInt()
+                            val nombre = user[0]["nombre"]
+
+                            if (tipo_usaurio == "1") {
+                                loginAsAdmin()
+                                saveUserId(id)
+                            } else {
+                                Toast.makeText(this, "Bienvenido ${nombre}", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(this, MainActivity::class.java)
+                                intent.putExtra("is_admin", false)
+                                intent.putExtra("load_home_fragment", true)
+                                saveUserId(id)
+                                startActivity(intent)
+                            }
+                        } else {
+                            Toast.makeText(this, "La contraseña ingresada no es correcta.", Toast.LENGTH_SHORT).show()
                         }
+
                     } else {
-                        Toast.makeText(this, "El correo o la contraseña son incorrectos.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "No existe un usuario con este correo.", Toast.LENGTH_SHORT).show()
                     }
+                    loadingOverlay.visibility = View.GONE
                 }
             }
         }
@@ -99,26 +125,10 @@ class Login : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun getUserFromSharedPreferences(email: String, password: String): Usuario? {
-        val sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-
-        val allEntries = sharedPreferences.all
-
-        for ((key, _) in allEntries) {
-            if (key.endsWith(".correoElectronico")) {
-                val storedEmail = sharedPreferences.getString(key, "")
-                val userId = key.removeSuffix(".correoElectronico").removePrefix("user_")
-                val storedPassword = sharedPreferences.getString("$userId.contrasena", "")
-
-                if (email == storedEmail && password == storedPassword) {
-                    val storedName = sharedPreferences.getString("$userId.nombre", "")
-                    val storedLastName = sharedPreferences.getString("$userId.apellido", "")
-                    val storedAge = sharedPreferences.getInt("$userId.edad", 0)
-
-                    return Usuario(storedName ?: "", storedLastName ?: "", storedAge, storedEmail ?: "", storedPassword ?: "")
-                }
-            }
-        }
-        return null
+    private fun saveUserId(userId: Int) {
+        val sharedPreferences = this.getSharedPreferences("sesion", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putInt("user_id", userId)
+        editor.apply()
     }
 }
