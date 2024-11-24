@@ -1,24 +1,15 @@
 package com.example.proyecto.ui.gasto.add
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
-import com.example.proyecto.ModelClasses.GastoData
-import com.example.proyecto.ModelClasses.Utils
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddGastoFragment : Fragment() {
 
@@ -32,7 +23,8 @@ class AddGastoFragment : Fragment() {
 
     private lateinit var selectedUser: String
     private lateinit var selectedType: String
-    private var selectedDate: Long = Calendar.getInstance().timeInMillis // Variable to store selected date
+    private var selectedDate: String = ""
+    private lateinit var mySQLConnection: MySQLConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +39,7 @@ class AddGastoFragment : Fragment() {
         spnUsers = view.findViewById(R.id.spnUserGasto)
         spnType = view.findViewById(R.id.spnGastoType)
         cal = view.findViewById(R.id.calGasto)
+        mySQLConnection = MySQLConnection(requireContext())
 
         initSpinnerUser()
         initSpinnerType()
@@ -54,7 +47,8 @@ class AddGastoFragment : Fragment() {
         cal.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
-            selectedDate = calendar.timeInMillis
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            selectedDate = format.format(calendar.time)
         }
 
         btnGuardarGasto.setOnClickListener {
@@ -71,33 +65,26 @@ class AddGastoFragment : Fragment() {
     }
 
     private fun guardarGasto() {
-        val gasto = GastoData(selectedUser, selectedType, selectedDate.toString(), edtDetallesGasto.text.toString(), edtTotalGasto.text.toString())
-        val sharedPreferences = requireContext().getSharedPreferences("GastoPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+        val idUsuario = selectedUser.split(" - ")[0].toInt()
+        val monto = edtTotalGasto.text.toString().toFloat()
+        val detalle = edtDetallesGasto.text.toString()
 
-        val gson = Gson()
-        val productListJson = sharedPreferences.getString("gastos", null)
-        val type = object : TypeToken<MutableList<GastoData>>() {}.type
-        val gastoList: MutableList<GastoData> = if (productListJson != null) {
-            gson.fromJson(productListJson, type)
-        } else {
-            mutableListOf()
+        val query = "INSERT INTO gastos (id_usuario, monto, tipo, detalle, fecha) VALUES (?, ?, ?, ?, ?)"
+        val params = arrayOf(idUsuario.toString(), monto.toString(), selectedType, detalle, selectedDate)
+        mySQLConnection.insertDataAsync(query, *params) { result ->
+            if (result) {
+                mostrarToast("Gasto registrado correctamente")
+                limpiar()
+            } else {
+                mostrarToast("Error al registrar el gasto")
+            }
         }
-
-        gastoList.add(gasto)
-
-        val newGastoListJson = gson.toJson(gastoList)
-        editor.putString("gastos", newGastoListJson)
-
-        editor.apply()
-        mostrarToast("Se guardó un gasto")
-        limpiar()
     }
 
     private fun limpiar() {
         val currentTimeMillis = Calendar.getInstance().timeInMillis
         cal.date = currentTimeMillis
-        selectedDate = currentTimeMillis
+        selectedDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentTimeMillis)
         edtDetallesGasto.setText("")
         edtTotalGasto.setText("")
         spnUsers.setSelection(0)
@@ -105,18 +92,20 @@ class AddGastoFragment : Fragment() {
     }
 
     private fun initSpinnerUser() {
-        val users = Utils.getUsersFromSharedPreferences(requireContext())
-        if (users.isNotEmpty()) {
-            selectedUser = users[0]
-            val userArray = users.toTypedArray()
-
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, userArray)
+        val query = "SELECT id, nombre FROM usuarios"
+        mySQLConnection.selectDataAsync(query) { result ->
+            val userList = result.map { "${it["id"]} - ${it["nombre"]}" }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, userList)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spnUsers.adapter = adapter
 
+            if (userList.isNotEmpty()) {
+                selectedUser = userList[0]
+            }
+
             spnUsers.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    selectedUser = users[position]
+                    selectedUser = userList[position]
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -158,7 +147,7 @@ class AddGastoFragment : Fragment() {
     private fun validarCampos(): Boolean {
         val totalGasto = edtTotalGasto.text.toString().trim()
         val detallesGasto = edtDetallesGasto.text.toString().trim()
-        return totalGasto.isNotEmpty() && detallesGasto.isNotEmpty()
+        return totalGasto.isNotEmpty() && detallesGasto.isNotEmpty() && selectedDate.isNotEmpty()
     }
 
     private fun mostrarToast(mensaje: String) {
