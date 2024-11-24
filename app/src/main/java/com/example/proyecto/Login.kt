@@ -20,6 +20,7 @@ class Login : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var loadingOverlay: FrameLayout
+    private val validNfcTagId = "04314B0A276680"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +113,12 @@ class Login : AppCompatActivity() {
             if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action) {
                 val tag: Tag? = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)
                 tag?.let {
-                    loginAsAdmin()
+                    val tagId = it.id.joinToString("") { byte -> "%02X".format(byte) }
+                    if (tagId == validNfcTagId) {
+                        loginAsAdmin()
+                    } else {
+                        Toast.makeText(this, "Tarjeta NFC no válida", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         } catch (e: Exception) {
