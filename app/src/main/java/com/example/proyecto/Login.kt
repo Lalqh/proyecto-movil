@@ -46,6 +46,8 @@ class Login : AppCompatActivity() {
                 Toast.makeText(this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show()
             } else {
                 loadingOverlay.visibility = View.VISIBLE
+                btnExit.isEnabled = false
+                btnLogin.isEnabled = false
                 MySQLConnection.selectDataAsync(
                     "SELECT * FROM usuarios WHERE correo = ?",
                     email
@@ -79,6 +81,8 @@ class Login : AppCompatActivity() {
                     } else {
                         Toast.makeText(this, "No existe un usuario con este correo.", Toast.LENGTH_SHORT).show()
                     }
+                    btnLogin.isEnabled = true
+                    btnExit.isEnabled = true
                     loadingOverlay.visibility = View.GONE
                 }
             }
