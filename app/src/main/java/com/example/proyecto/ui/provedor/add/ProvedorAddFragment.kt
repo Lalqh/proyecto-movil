@@ -1,96 +1,79 @@
 package com.example.proyecto.ui.provedor.add
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.proyecto.ModelClasses.ProvedorData
+import androidx.fragment.app.Fragment
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class ProvedorAddFragment : Fragment() {
 
+    data class Proveedor(
+        val nombreProveedor: String,
+        val nitProveedor: String,
+        val correoProveedor: String,
+        val telefono: String
+    )
 
-    companion object {
-        fun newInstance() = ProvedorAddFragment()
-    }
+    private lateinit var nombre: EditText
+    private lateinit var mail: EditText
+    private lateinit var phone: EditText
+    private lateinit var rfc: EditText
+    private lateinit var add: Button
+    private lateinit var cancel: Button
+    private lateinit var mySQLConnection: MySQLConnection
 
-    private lateinit var viewModel: ProvedorAddViewModel
-    private lateinit var nombre:EditText
-    private lateinit var mail:EditText
-    private lateinit var phone:EditText
-    private lateinit var rfc:EditText
-    private lateinit var add:Button
-    private lateinit var cancel:Button
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.fragment_provedor_add, container, false)
+        val view = inflater.inflate(R.layout.fragment_provedor_add, container, false)
 
-        nombre=view.findViewById(R.id.edtNombreProveedor)
-        mail=view.findViewById(R.id.edtCorreo)
-        phone=view.findViewById(R.id.edtTelefono)
-        rfc=view.findViewById(R.id.edtRFC)
-        add=view.findViewById(R.id.btnRegistrarProveedor)
-        cancel=view.findViewById(R.id.btnCancelarProveedor)
-        //Toast.makeText(requireContext(), "Probando toast", Toast.LENGTH_SHORT).show()
-        add.setOnClickListener{
+        nombre = view.findViewById(R.id.edtNombreProveedor)
+        mail = view.findViewById(R.id.edtCorreo)
+        phone = view.findViewById(R.id.edtTelefono)
+        rfc = view.findViewById(R.id.edtRFC)
+        add = view.findViewById(R.id.btnRegistrarProveedor)
+        cancel = view.findViewById(R.id.btnCancelarProveedor)
+        mySQLConnection = MySQLConnection(requireContext())
 
+        add.setOnClickListener {
             if (validateInputs()) {
                 val nombre_ = nombre.text.toString()
                 val mail_ = mail.text.toString()
                 val phone_ = phone.text.toString()
                 val rfc_ = rfc.text.toString()
 
-                val provedor = ProvedorData(nombre_, mail_, phone_, rfc_)
+                val proveedor = Proveedor(nombre_, rfc_, mail_, phone_)
 
-                saveProvedor(provedor)
-                Toast.makeText(requireContext(), "Provedor guardado", Toast.LENGTH_SHORT).show()
+                saveProveedor(proveedor)
             }
         }
-        cancel.setOnClickListener{
-            Toast.makeText(requireContext(), "cancelo el registro", Toast.LENGTH_SHORT).show()
-            nombre.setText("")
-            mail.setText("")
-            phone.setText("")
-            rfc.setText("")
+
+        cancel.setOnClickListener {
+            Toast.makeText(requireContext(), "Registro cancelado", Toast.LENGTH_SHORT).show()
+            clearFields()
         }
 
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProvedorAddViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
-    private fun saveProvedor(provedor: ProvedorData) {
-        val sharedPreferences = requireContext().getSharedPreferences("ProvedorPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-
-        val gson = Gson()
-        val provedorListJson = sharedPreferences.getString("provedores", null)
-        val type = object : TypeToken<MutableList<ProvedorData>>() {}.type
-        val provedorList: MutableList<ProvedorData> = if (provedorListJson != null) {
-            gson.fromJson(provedorListJson, type)
-        } else {
-            mutableListOf()
+    private fun saveProveedor(proveedor: Proveedor) {
+        val query = "INSERT INTO proveedor (nombreProveedor, nitProveedor, correoProveedor, telefono) VALUES (?, ?, ?, ?)"
+        val params = arrayOf(proveedor.nombreProveedor, proveedor.nitProveedor, proveedor.correoProveedor, proveedor.telefono)
+        mySQLConnection.insertDataAsync(query, *params) { result ->
+            if (result) {
+                Toast.makeText(context, "Proveedor guardado correctamente", Toast.LENGTH_SHORT).show()
+                clearFields()
+            } else {
+                Toast.makeText(context, "Error al guardar proveedor", Toast.LENGTH_SHORT).show()
+            }
         }
-
-        provedorList.add(provedor)
-
-        val newProvedorListJson = gson.toJson(provedorList)
-        editor.putString("provedores", newProvedorListJson)
-        editor.apply()
     }
 
     private fun validateInputs(): Boolean {
@@ -100,7 +83,7 @@ class ProvedorAddFragment : Fragment() {
         val rfc = rfc.text.toString().trim()
 
         if (nombre.isEmpty()) {
-            showToast("Por favor, ingrese el nombre del provedor.")
+            showToast("Por favor, ingrese el nombre del proveedor.")
             return false
         }
 
@@ -110,21 +93,26 @@ class ProvedorAddFragment : Fragment() {
         }
 
         if (phone.isEmpty()) {
-            showToast("Por favor, ingrese el numero telefonico.")
+            showToast("Por favor, ingrese el número telefónico.")
             return false
         }
 
         if (rfc.isEmpty()) {
-            showToast("Por favor, ingrese el rfc.")
+            showToast("Por favor, ingrese el RFC.")
             return false
         }
-
-
 
         return true
     }
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun clearFields() {
+        nombre.text.clear()
+        mail.text.clear()
+        phone.text.clear()
+        rfc.text.clear()
     }
 }

@@ -21,13 +21,12 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivProvedorImagen" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvMailProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/melocoton"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +44,6 @@
             android:id="@+id/tvRFCProvedorI"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/melocoton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPhoneProvedorI" />
