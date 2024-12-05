@@ -1,5 +1,6 @@
 package com.example.proyecto
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -26,6 +28,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import java.util.Objects
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         "¡Evento de fin de semana! Ofertas especiales solo por este fin de semana.",
         "¡Promoción de verano! Descuentos en productos frescos y naturales."
     )
+    private val notificationInterval = 10000L // 10 seconds
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +85,8 @@ class MainActivity : AppCompatActivity() {
         adjustMenu(navView, isAdmin)
 
         createNotificationChannel()
-        scheduleNotifications()
+        //scheduleNotifications()
+        handler.post(notificationCheckRunnable)
     }
 
     private fun adjustMenu(navView: NavigationView, isAdmin: Boolean) {
@@ -179,6 +185,67 @@ class MainActivity : AppCompatActivity() {
             requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_CODE)
         }
     }
+
+    private val notificationCheckRunnable = object: Runnable {
+        override fun run() {
+            checkForNewNotifications()
+            handler.postDelayed(this, 60000L)
+        }
+    }
+    private fun checkForNewNotifications() {
+        val MySQLConnection = MySQLConnection(this)
+        val userId = getUserId()
+        Toast.makeText(this, "Revisando notificaciones...", Toast.LENGTH_SHORT).show()
+        Log.d("Notificaciones", "Revisando notificaciones para el usuario $userId")
+        /*
+        Codigo para insertar notificación XD
+        MySQLConnection.insertDataAsync(
+            "INSERT INTO notificacion (usuario_destino, titulo, descripcion) VALUES (?, ?, ?)",
+            *arrayOf(userId.toString(), "Notificación de prueba", "Este es un mensaje de prueba"),
+            callback = { success ->
+                if (success) {
+                    Toast.makeText(this, "Notificación de prueba enviada", Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this, "Error al enviar notificación de prueba", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )*/
+        MySQLConnection.selectDataAsync(
+            "SELECT titulo, descripcion FROM notificacion WHERE usuario_destino = ?",
+            userId.toString()
+        ) { notifications ->
+            notifications.forEach { notification ->
+                val title = notification["titulo"].toString()
+                val message = notification["descripcion"].toString()
+                Toast.makeText(this, "Nueva notificación: $title", Toast.LENGTH_SHORT).show()
+                showNotification(title, message)
+            }
+            }
+    }
+    @SuppressLint("MissingPermission")
+    private fun showNotification(title: String, message: String) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notificationBuilder = NotificationCompat.Builder(this, "promo_channel")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(this)) {
+            notify(Random.nextInt(), notificationBuilder.build())
+        }
+    }
+    private fun getUserId(): Int {
+        val sharedPreferences = this.getSharedPreferences("sesion", Context.MODE_PRIVATE)
+        return sharedPreferences.getInt("user_id", -1)
+    }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
