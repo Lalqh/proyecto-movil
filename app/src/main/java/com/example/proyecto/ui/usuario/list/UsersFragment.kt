@@ -72,7 +72,7 @@ class UsersFragment : Fragment() {
                     ""
                 )
 
-                user1.text = "Nombre: ${usuario.nombre}\nApelliwdo: ${usuario.apellido}\nEdad:" +
+                user1.text = "Nombre: ${usuario.nombre}\nApellido: ${usuario.apellido}\nEdad:" +
                         " ${usuario.edad}\nCorreo: ${usuario.correoElectronico}"
 
                 user1.setOnClickListener {
