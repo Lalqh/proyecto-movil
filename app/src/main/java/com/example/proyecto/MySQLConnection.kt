@@ -48,6 +48,38 @@ class MySQLConnection(private val context: Context) {
             callback(result)
         }
     }
+    // Tarea AsyncTask para operaciones de actualización
+    inner class UpdateDataTask(
+        private val query: String,
+        private val params: Array<out String>,
+        private val callback: (Boolean) -> Unit
+    ) : AsyncTask<Void, Void, Boolean>() {
+
+        override fun doInBackground(vararg voids: Void?): Boolean {
+            return try {
+                val connection = getConnection()
+                val preparedStatement = connection.prepareStatement(query)
+                for ((index, param) in params.withIndex()) {
+                    preparedStatement.setString(index + 1, param)
+                }
+                preparedStatement.executeUpdate()
+                connection.close()
+                true
+            } catch (e: SQLException) {
+                e.printStackTrace()
+                false
+            } catch (e: Exception) {
+                e.printStackTrace()
+                false
+            }
+        }
+
+        override fun onPostExecute(result: Boolean) {
+            super.onPostExecute(result)
+            // Llamada al callback para devolver el resultado a la actividad o fragmento
+            callback(result)
+        }
+    }
 
     // Tarea AsyncTask para operaciones de selección
     inner class SelectDataTask(
@@ -99,5 +131,8 @@ class MySQLConnection(private val context: Context) {
     // Método para iniciar la tarea de selección
     fun selectDataAsync(query: String, vararg params: String, callback: (List<Map<String, String>>) -> Unit) {
         SelectDataTask(query, params, callback).execute()
+    }
+    fun updateDataAsync(query: String, vararg params: String, callback: (Boolean) -> Unit) {
+        UpdateDataTask(query, params, callback).execute()
     }
 }
