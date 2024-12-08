@@ -11,10 +11,11 @@ data class ProductoData(
     val nombre: String,
     val precio: String,
     val descripcion: String,
-    val descuento: String,
+    val descuento: String = "",
     val stock: String,
     val categoria: String,
-    val code:String
+    val code:String,
+    val img: String = ""
     )
 class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>(){
     override fun onCreateViewHolder(
