@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.Utils
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
 import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
@@ -41,32 +42,33 @@ class AddProductoFragment : Fragment() {
     private lateinit var spnCategory: Spinner
     private lateinit var btnGuardarProducto: Button
     private lateinit var btnCancelar: Button
+
     //private var categoriaSeleccionada: String = ""
     private lateinit var btnBuscarProducto: Button
     private lateinit var btnEliminarProducto: Button
     private lateinit var categoriaSeleccionada: AddCategoriaFragment.Category
-    private lateinit var scanProduct:Button
-    private lateinit var code:TextView
+    private lateinit var scanProduct: Button
+    private lateinit var code: TextView
+    private lateinit var mySQLConnection: MySQLConnection
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_add_producto, container, false)
-
+        mySQLConnection = MySQLConnection(requireContext())
         edtNombre = view.findViewById(R.id.edtNombre)
         edtPrecio = view.findViewById(R.id.edtPrecio)
         edtDescripcion = view.findViewById(R.id.edtDescripcion)
-        //edtDescuento = view.findViewById(R.id.edtDescuento)
+
         edtStock = view.findViewById(R.id.edtStock)
         spnCategory = view.findViewById(R.id.spnCategory)
         btnGuardarProducto = view.findViewById(R.id.btnGuardarProducto)
         btnEliminarProducto = view.findViewById(R.id.btnCancelar)
         btnBuscarProducto = view.findViewById(R.id.btnBuscarProducto)
-        scanProduct=view.findViewById(R.id.btnProductQR)
-        code=view.findViewById(R.id.tvQR)
+        scanProduct = view.findViewById(R.id.btnProductQR)
+        code = view.findViewById(R.id.tvQR)
 
-        // Inicializar el ActivityResultLauncher
         scanResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -74,18 +76,17 @@ class AddProductoFragment : Fragment() {
                 result.resultCode, result.data
             )
 
-            // Validar que no esté vacío
+
             if (intentResult != null) {
                 if (intentResult.contents == null) {
-                    // Mostrar mensaje de lectura cancelada
                     Toast.makeText(requireContext(), "Lectura cancelada", Toast.LENGTH_SHORT).show()
                 } else {
-                    // Mostrar el código leído y guardarlo en el TextView
                     Toast.makeText(requireContext(), "Código Leído", Toast.LENGTH_SHORT).show()
                     code.text = intentResult.contents
                 }
             } else {
-                Toast.makeText(requireContext(), "Error al escanear el código", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error al escanear el código", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -100,7 +101,15 @@ class AddProductoFragment : Fragment() {
                 val descuento = "0"
                 val stock = edtStock.text.toString()
 
-                val producto = ProductoData(nombre, precio, descripcion, descuento, stock, categoriaSeleccionada.name,"code here")
+                val producto = ProductoData(
+                    nombre,
+                    precio,
+                    descripcion,
+                    descuento,
+                    stock,
+                    categoriaSeleccionada.name,
+                    "code here"
+                )
 
                 saveProduct(producto)
                 Toast.makeText(requireContext(), "Producto guardado", Toast.LENGTH_SHORT).show()
@@ -114,19 +123,44 @@ class AddProductoFragment : Fragment() {
 
         return view
     }
-    private fun setupSpinner() {
-        val categories = Utils.getCategoriesFromPreferences(requireContext())
 
+    private fun setupSpinner() {
+        val query = "SELECT idCategoria, nombreCategoria, descripcion, activo FROM categoria"
+        var categories = emptyList<AddCategoriaFragment.Category>()
+        mySQLConnection.selectDataAsync(query) { result ->
+            if (result.isNotEmpty()) {
+                categories = result.map {
+                    AddCategoriaFragment.Category(
+                        it["nombreCategoria"] ?: "",
+                        it["descripcion"] ?: "",
+                        it["activo"]?.toInt() == 1
+                    )
+                }
+                updateSpinner(categories)
+            } else {
+                Toast.makeText(requireContext(), "No se encontraron categorías", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun updateSpinner(categories: List<AddCategoriaFragment.Category>) {
         if (categories.isNotEmpty()) {
             categoriaSeleccionada = categories[0]
 
             val categoryNames = categories.map { it.name }
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
+            val adapter =
+                ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categoryNames)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spnCategory.adapter = adapter
 
             spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
                     categoriaSeleccionada = categories[position]
                 }
 
@@ -137,21 +171,30 @@ class AddProductoFragment : Fragment() {
     private fun buscarProducto() {
         val productName = edtNombre.text.toString()
         if (productName.isBlank()) {
-            Toast.makeText(requireContext(), "Por favor ingrese el nombre del producto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Por favor ingrese el nombre del producto",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
         val productos = Utils.getProductosFromPreferences(requireContext())
         val producto = productos.find { it.nombre == productName }
         if (producto != null) {
-            Toast.makeText(requireContext(), "Producto encontrado: ${producto.nombre} en categoría ${producto.categoria}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Producto encontrado: ${producto.nombre} en categoría ${producto.categoria}",
+                Toast.LENGTH_SHORT
+            ).show()
             // Mostrar los datos del producto en los EditText
             edtNombre.setText(producto.nombre)
             edtPrecio.setText(producto.precio)
             edtDescripcion.setText(producto.descripcion)
             //edtDescuento.setText(producto.descuento)
             edtStock.setText(producto.stock)
-            val categoryIndex = Utils.getCategoriesFromPreferences(requireContext()).indexOfFirst { it.name == producto.categoria }
+            val categoryIndex = Utils.getCategoriesFromPreferences(requireContext())
+                .indexOfFirst { it.name == producto.categoria }
             spnCategory.setSelection(categoryIndex)
         } else {
             Toast.makeText(requireContext(), "Producto no encontrado", Toast.LENGTH_SHORT).show()
@@ -161,7 +204,11 @@ class AddProductoFragment : Fragment() {
     private fun eliminarProducto() {
         val productName = edtNombre.text.toString()
         if (productName.isBlank()) {
-            Toast.makeText(requireContext(), "Por favor ingrese el nombre del producto", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Por favor ingrese el nombre del producto",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
@@ -172,14 +219,19 @@ class AddProductoFragment : Fragment() {
             val producto = iterator.next()
             if (producto.nombre == productName) {
                 iterator.remove()
-                Utils.saveProductosToPreferences(requireContext(),productos)
-                Toast.makeText(requireContext(), "Producto eliminado: ${producto.nombre}", Toast.LENGTH_SHORT).show()
+                Utils.saveProductosToPreferences(requireContext(), productos)
+                Toast.makeText(
+                    requireContext(),
+                    "Producto eliminado: ${producto.nombre}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return
             }
         }
 
         Toast.makeText(requireContext(), "Producto no encontrado", Toast.LENGTH_SHORT).show()
     }
+
     private fun validateInputs(): Boolean {
         val nombre = edtNombre.text.toString().trim()
         val precio = edtPrecio.text.toString().trim()
@@ -220,7 +272,8 @@ class AddProductoFragment : Fragment() {
     }
 
     private fun saveProduct(producto: ProductoData) {
-        val sharedPreferences = requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
         val gson = Gson()
@@ -239,13 +292,15 @@ class AddProductoFragment : Fragment() {
         editor.apply()
         limpiar()
     }
-    private fun limpiar(){
+
+    private fun limpiar() {
         edtNombre.setText("")
         edtPrecio.setText("")
         edtDescripcion.setText("")
         //edtDescuento.setText("")
         edtStock.setText("")
     }
+
     // Función para iniciar el escaneo
     private fun escanearCodigo() {
         val intentIntegrator = IntentIntegrator.forSupportFragment(this)
@@ -259,7 +314,7 @@ class AddProductoFragment : Fragment() {
         scanResultLauncher.launch(intentIntegrator.createScanIntent())
     }
 
-    /*override*/ fun onActivityResultDeprecated(requestCode:Int, resultCode:Int, data: Intent?) {
+    /*override*/ fun onActivityResultDeprecated(requestCode: Int, resultCode: Int, data: Intent?) {
 //Instancia para recibir el resultado (Lectura de código)
 
         val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
@@ -268,14 +323,14 @@ class AddProductoFragment : Fragment() {
 //Validar leyo información
             if (intentResult.contents == null) {
 //Mensaje informativo - no hubo datos
-                Toast.makeText(requireContext(),"Lectura cancelada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Lectura cancelada", Toast.LENGTH_SHORT).show()
             } else {
 //Mensaje informativo - si hubo datos
-                Toast.makeText(requireContext(),"Codigo Leido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Codigo Leido", Toast.LENGTH_SHORT).show()
 //Colocar el codigo en la caja de texto
                 code.setText(intentResult.contents)
             } //if-else = null
-        }else {
+        } else {
             super.onActivityResult(requestCode, resultCode, data)
         }//if-else !=null
     }//onActivityResult
