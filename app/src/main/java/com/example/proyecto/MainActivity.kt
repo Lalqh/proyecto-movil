@@ -26,10 +26,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.proyecto.ModelClasses.NotificationActionReceiver
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import java.util.Objects
 import kotlin.random.Random
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,16 +68,28 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_usuarios_añadir, R.id.nav_usuarios_consultar, R.id.nav_proveedores_consultar, R.id.nav_proveedores_añadir,
-                R.id.nav_proveedores_ordenar_compra, R.id.nav_productos_catalogo, R.id.nav_productos_añadir,
-                R.id.nav_productos_añadir_oferta, R.id.nav_productos_añadir_categoria, R.id.nav_productos_consultar_categoria,
-                R.id.nav_ventas_añadir, R.id.nav_ventas_consultar_historial,
-                R.id.nav_gastos_añadir, R.id.nav_gastos_consultar, R.id.nav_horario
+                R.id.nav_home,
+                R.id.nav_usuarios_añadir,
+                R.id.nav_usuarios_consultar,
+                R.id.nav_proveedores_consultar,
+                R.id.nav_proveedores_añadir,
+                R.id.nav_proveedores_ordenar_compra,
+                R.id.nav_productos_catalogo,
+                R.id.nav_productos_añadir,
+                R.id.nav_productos_añadir_oferta,
+                R.id.nav_productos_añadir_categoria,
+                R.id.nav_productos_consultar_categoria,
+                R.id.nav_ventas_añadir,
+                R.id.nav_ventas_consultar_historial,
+                R.id.nav_gastos_añadir,
+                R.id.nav_gastos_consultar,
+                R.id.nav_horario
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -119,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                 logout()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -131,7 +146,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
@@ -162,13 +178,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRandomNotification() {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             val randomMessage = notificationMessages[Random.nextInt(notificationMessages.size)]
 
             val intent = Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }
-            val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+            val pendingIntent: PendingIntent =
+                PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
             val notificationBuilder = NotificationCompat.Builder(this, "promo_channel")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -182,20 +203,24 @@ class MainActivity : AppCompatActivity() {
                 notify(Random.nextInt(), notificationBuilder.build())
             }
         } else {
-            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_CODE)
+            requestPermissions(
+                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                NOTIFICATION_PERMISSION_CODE
+            )
         }
     }
 
-    private val notificationCheckRunnable = object: Runnable {
+    private val notificationCheckRunnable = object : Runnable {
         override fun run() {
             checkForNewNotifications()
             handler.postDelayed(this, 60000L)
         }
     }
+
     private fun checkForNewNotifications() {
         val MySQLConnection = MySQLConnection(this)
         val userId = getUserId()
-        Toast.makeText(this, "Revisando notificaciones...", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Revisando notificaciones...", Toast.LENGTH_SHORT).show()
         Log.d("Notificaciones", "Revisando notificaciones para el usuario $userId")
         /*
         Codigo para insertar notificación XD
@@ -211,23 +236,33 @@ class MainActivity : AppCompatActivity() {
             }
         )*/
         MySQLConnection.selectDataAsync(
-            "SELECT titulo, descripcion FROM notificacion WHERE usuario_destino = ?",
+            "SELECT id, titulo, descripcion FROM notificacion WHERE usuario_destino = ? and leida = 0",
             userId.toString()
         ) { notifications ->
             notifications.forEach { notification ->
                 val title = notification["titulo"].toString()
                 val message = notification["descripcion"].toString()
+                val id = notification["id"]?.toInt() ?: -1
                 Toast.makeText(this, "Nueva notificación: $title", Toast.LENGTH_SHORT).show()
-                showNotification(title, message)
+                showNotification(id, title, message)
             }
-            }
+        }
     }
+
     @SuppressLint("MissingPermission")
-    private fun showNotification(title: String, message: String) {
+    private fun showNotification(id: Int, title: String, message: String) {
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent: PendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val markAsReadIntent = Intent(this, NotificationActionReceiver::class.java).apply {
+            putExtra("notification_id", id)
+            putExtra("user_id", getUserId())
+        }
+        val markAsReadPendingIntent: PendingIntent =
+            PendingIntent.getBroadcast(this, id, markAsReadIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = NotificationCompat.Builder(this, "promo_channel")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -236,18 +271,24 @@ class MainActivity : AppCompatActivity() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
+            .addAction(R.drawable.ic_mark_as_read, "Leida", markAsReadPendingIntent)
 
         with(NotificationManagerCompat.from(this)) {
-            notify(Random.nextInt(), notificationBuilder.build())
+            notify(id, notificationBuilder.build())
         }
     }
+
     private fun getUserId(): Int {
         val sharedPreferences = this.getSharedPreferences("sesion", Context.MODE_PRIVATE)
         return sharedPreferences.getInt("user_id", -1)
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == NOTIFICATION_PERMISSION_CODE) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
