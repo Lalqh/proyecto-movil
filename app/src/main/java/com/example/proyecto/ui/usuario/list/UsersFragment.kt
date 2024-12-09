@@ -69,7 +69,8 @@ class UsersFragment : Fragment() {
                     user["apellido"] ?: "",
                     user["edad"]?.toInt() ?: 0,
                     user["correo"] ?: "",
-                    ""
+                    "",
+                    user["img"] ?: ""
                 )
 
                 user1.text = "Nombre: ${usuario.nombre}\nApellido: ${usuario.apellido}\nEdad:" +

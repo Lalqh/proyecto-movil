@@ -8,12 +8,14 @@ data class Usuario(
     val apellido: String,
     val edad: Int,
     val correoElectronico: String,
-    val contrasena: String
+    val contrasena: String,
+    val img: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
     )
@@ -24,6 +26,7 @@ data class Usuario(
         parcel.writeInt(edad)
         parcel.writeString(correoElectronico)
         parcel.writeString(contrasena)
+        parcel.writeString(img)
     }
 
     override fun describeContents(): Int {

@@ -50,7 +50,7 @@ class AddUserFragment : Fragment() {
                     .show()
             } else {
                 val age = ageStr.toInt()
-                val user = Usuario(name, lastName, age, email, password)
+                val user = Usuario(name, lastName, age, email, password, "")
                 saveUser(user)
             }
         }

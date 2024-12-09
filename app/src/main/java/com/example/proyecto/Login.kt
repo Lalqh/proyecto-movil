@@ -116,6 +116,7 @@ class Login : AppCompatActivity() {
                     val tagId = it.id.joinToString("") { byte -> "%02X".format(byte) }
                     if (tagId == validNfcTagId) {
                         loginAsAdmin()
+
                     } else {
                         Toast.makeText(this, "Tarjeta NFC no válida", Toast.LENGTH_SHORT).show()
                     }
@@ -132,6 +133,7 @@ class Login : AppCompatActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("is_admin", true)
         intent.putExtra("load_home_fragment", true)
+        intent.putExtra("user_id", 1)
         startActivity(intent)
     }
 
