@@ -252,6 +252,7 @@ class AddProductoFragment : Fragment() {
             return false
         }
 
+
         if (precio.isEmpty()) {
             showToast("Por favor, ingrese el precio del producto.")
             return false
@@ -351,8 +352,8 @@ class AddProductoFragment : Fragment() {
     }
     private fun saveProductToDatabase(producto: ProductoData) {
         val query = """
-        INSERT INTO producto (nombreProducto, precio, stock, Categoria_id, descripcion, img) 
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO producto (nombreProducto, precio, stock, Categoria_id, descripcion, img,qrcode) 
+        VALUES (?, ?, ?, ?, ?, ?,?)
     """.trimIndent()
 
         val params = arrayOf(
@@ -361,7 +362,8 @@ class AddProductoFragment : Fragment() {
             producto.stock,
             categoriaSeleccionada.id.toString(), // Cambia según la estructura de `Category`
             producto.descripcion,
-            producto.img // Si no se maneja una imagen, puedes pasar un valor vacío o nulo
+            producto.img, // Si no se maneja una imagen, puedes pasar un valor vacío o nulo,
+            producto.code
         )
 
         mySQLConnection.insertDataAsync(query, *params) { success ->

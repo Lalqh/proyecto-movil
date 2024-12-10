@@ -15,7 +15,8 @@ data class ProductoData(
     val stock: String,
     val categoria: String,
     val code:String,
-    val img: String = ""
+    val img: String = "",
+
     )
 class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>(){
     override fun onCreateViewHolder(
