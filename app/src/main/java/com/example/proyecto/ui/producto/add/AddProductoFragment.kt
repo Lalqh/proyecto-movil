@@ -32,6 +32,12 @@ class AddProductoFragment : Fragment() {
     companion object {
         fun newInstance() = AddProductoFragment()
     }
+    data class Category(
+        val id:Int,
+        val name: String,
+        val description: String,
+        val isActive: Boolean
+    )
 
     private lateinit var viewModel: AddProductoViewModel
     private lateinit var edtNombre: EditText
@@ -46,7 +52,7 @@ class AddProductoFragment : Fragment() {
     //private var categoriaSeleccionada: String = ""
     private lateinit var btnBuscarProducto: Button
     private lateinit var btnEliminarProducto: Button
-    private lateinit var categoriaSeleccionada: AddCategoriaFragment.Category
+    private lateinit var categoriaSeleccionada:Category
     private lateinit var scanProduct: Button
     private lateinit var code: TextView
     private lateinit var mySQLConnection: MySQLConnection
@@ -108,10 +114,11 @@ class AddProductoFragment : Fragment() {
                     descuento,
                     stock,
                     categoriaSeleccionada.name,
-                    "code here"
+                    code.toString()
+
                 )
 
-                saveProduct(producto)
+                saveProductToDatabase(producto)
                 Toast.makeText(requireContext(), "Producto guardado", Toast.LENGTH_SHORT).show()
             }
         }
@@ -126,11 +133,12 @@ class AddProductoFragment : Fragment() {
 
     private fun setupSpinner() {
         val query = "SELECT idCategoria, nombreCategoria, descripcion, activo FROM categoria"
-        var categories = emptyList<AddCategoriaFragment.Category>()
+        var categories = emptyList<Category>()
         mySQLConnection.selectDataAsync(query) { result ->
             if (result.isNotEmpty()) {
                 categories = result.map {
-                    AddCategoriaFragment.Category(
+                    Category(
+                        it["idCategoria"]?.toInt()?:-1,
                         it["nombreCategoria"] ?: "",
                         it["descripcion"] ?: "",
                         it["activo"]?.toInt() == 1
@@ -144,7 +152,7 @@ class AddProductoFragment : Fragment() {
         }
     }
 
-    private fun updateSpinner(categories: List<AddCategoriaFragment.Category>) {
+    private fun updateSpinner(categories: List<Category>) {
         if (categories.isNotEmpty()) {
             categoriaSeleccionada = categories[0]
 
@@ -341,5 +349,30 @@ class AddProductoFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(AddProductoViewModel::class.java)
         // TODO: Use the ViewModel
     }
+    private fun saveProductToDatabase(producto: ProductoData) {
+        val query = """
+        INSERT INTO producto (nombreProducto, precio, stock, Categoria_id, descripcion, img) 
+        VALUES (?, ?, ?, ?, ?, ?)
+    """.trimIndent()
+
+        val params = arrayOf(
+            producto.nombre,
+            producto.precio,
+            producto.stock,
+            categoriaSeleccionada.id.toString(), // Cambia según la estructura de `Category`
+            producto.descripcion,
+            producto.img // Si no se maneja una imagen, puedes pasar un valor vacío o nulo
+        )
+
+        mySQLConnection.insertDataAsync(query, *params) { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "Producto guardado en la base de datos", Toast.LENGTH_SHORT).show()
+                limpiar() // Limpia los campos del formulario
+            } else {
+                Toast.makeText(requireContext(), "Error al guardar el producto", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
 }
