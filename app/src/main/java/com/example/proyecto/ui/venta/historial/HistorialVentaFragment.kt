@@ -6,15 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.proyecto.ModelClasses.Venta
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
-import java.util.*
 
 class HistorialVentaFragment : Fragment() {
 
@@ -23,6 +21,19 @@ class HistorialVentaFragment : Fragment() {
     }
 
     private lateinit var viewModel: HistorialVentaViewModel
+    private lateinit var mySQLConnection: MySQLConnection
+    private lateinit var linearLayout: LinearLayout
+    private lateinit var progressBar: ProgressBar
+
+    data class Venta(
+        val id: Int,
+        val usuario: Int,
+        val producto: Int,
+        val metodo_pago: Int,
+        val fecha: String,
+        val cantidad: Int,
+        val total: Float
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,28 +42,48 @@ class HistorialVentaFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_historial_venta, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HistorialVentaViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireActivity().getSharedPreferences("VentaPrefs", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val ventaListJson = sharedPreferences.getString("ventas", null)
-        val type = object : TypeToken<MutableList<Venta>>() {}.type
-        val ventaList: MutableList<Venta> = if (ventaListJson != null) {
-            gson.fromJson(ventaListJson, type)
-        } else {
-            mutableListOf()
+        mySQLConnection = MySQLConnection(requireContext())
+        linearLayout = view.findViewById(R.id.linearLayoutVenta)
+        progressBar = view.findViewById(R.id.pbLoopSell)
+
+        loadVentas()
+    }
+
+    private fun loadVentas() {
+        progressBar.visibility = View.VISIBLE
+        val query = "SELECT id, usuario, producto, metodo_pago, fecha, cantidad, total FROM ventas"
+        mySQLConnection.selectDataAsync(query) { result ->
+            progressBar.visibility = View.GONE
+            if (result.isNotEmpty()) {
+                val ventas = result.map {
+                    Venta(
+                        it["id"]?.toInt() ?: 0,
+                        it["usuario"]?.toInt() ?: 0,
+                        it["producto"]?.toInt() ?: 0,
+                        it["metodo_pago"]?.toInt() ?: 0,
+                        it["fecha"] ?: "",
+                        it["cantidad"]?.toInt() ?: 0,
+                        it["total"]?.toFloat() ?: 0f
+                    )
+                }
+                updateVentas(ventas)
+            } else {
+                Toast.makeText(context, "No se encontraron ventas", Toast.LENGTH_SHORT).show()
+            }
         }
+    }
 
-        val linearLayout: LinearLayout = requireView().findViewById(R.id.linearLayoutVenta)
-
-        for (venta in ventaList) {
+    private fun updateVentas(ventas: List<Venta>) {
+        linearLayout.removeAllViews()
+        for (venta in ventas) {
             val textViewVenta = TextView(requireContext())
             textViewVenta.text =
-                "Usuario: ${venta.idUsuario}\n" +
-                        "Producto: ${venta.idProducto}\n" +
-                        "Método de Pago: ${venta.metodoPago}\n" +
+                "Usuario: ${venta.usuario}\n" +
+                        "Producto: ${venta.producto}\n" +
+                        "Método de Pago: ${venta.metodo_pago}\n" +
                         "Fecha: ${formatDate(venta.fecha)}\n" +
                         "Cantidad: ${venta.cantidad}\n" +
                         "Total: ${venta.total}"

@@ -17,12 +17,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.proyecto.ModelClasses.ProductoData
-import com.example.proyecto.ModelClasses.Venta
-import com.example.proyecto.QRViewActivity
+import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.proyecto.QRViewActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +32,20 @@ class AddVentaFragment : Fragment() {
     }
 
     private lateinit var viewModel: AddVentaViewModel
+    private lateinit var mySQLConnection: MySQLConnection
+    private lateinit var spinnerUsuario: Spinner
+    private lateinit var spinnerProducto: Spinner
+    private lateinit var spinnerMetodoPago: Spinner
+    private lateinit var edtTotalVenta: EditText
+    private lateinit var calendarView: CalendarView
+    private lateinit var btnGuardarVenta: Button
+    private lateinit var btnCancelarVenta: Button
+
+    private var usuarios: List<Usuario> = listOf()
+    private var productos: List<Producto> = listOf()
+
+    data class Usuario(val id: Int, val nombre: String)
+    data class Producto(val id: Int, val nombre: String, val precio: Float)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,163 +59,146 @@ class AddVentaFragment : Fragment() {
 
         createNotificationChannel()
 
-        val opciones = arrayOf("Tarjeta", "Efectivo", "Transferencia")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opciones)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySQLConnection = MySQLConnection(requireContext())
 
-        val spinner: Spinner = view.findViewById(R.id.spnMetodoPago)
-        spinner.adapter = adapter
+        spinnerUsuario = view.findViewById(R.id.spnUsuario)
+        spinnerProducto = view.findViewById(R.id.edtProducto)
+        spinnerMetodoPago = view.findViewById(R.id.spnMetodoPago)
+        edtTotalVenta = view.findViewById(R.id.edtTotalVenta)
+        calendarView = view.findViewById(R.id.calendarView3)
+        btnGuardarVenta = view.findViewById(R.id.btnGuardarVenta)
+        btnCancelarVenta = view.findViewById(R.id.btnCancelarVenta)
 
-        val usuarios = getAllUsersFromSharedPreferences().toMutableList()
-        usuarios.add(0, "Seleccione un usuario")
-        usuarios.add(1, "Administrador")
-        val usuariosArray = usuarios.toTypedArray()
-        val adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, usuariosArray)
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        loadUsuarios()
+        loadProductos()
 
-        val spinner2: Spinner = view.findViewById(R.id.spnUsuario)
-        spinner2.adapter = adapter2
+        val opcionesMetodoPago = arrayOf("Tarjeta", "Efectivo", "Transferencia")
+        val adapterMetodoPago = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opcionesMetodoPago)
+        adapterMetodoPago.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerMetodoPago.adapter = adapterMetodoPago
 
-        val productos = getAllProductsFromSharedPreferences()
-        val adapter3 = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, productos.map { it.nombre })
-        adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        val spinner3: Spinner = view.findViewById(R.id.edtProducto)
-        spinner3.adapter = adapter3
-
-        val total: EditText = view.findViewById<EditText>(R.id.edtTotalVenta)
-        val calendario: CalendarView = view.findViewById<CalendarView>(R.id.calendarView3)
-
-        val btnGuardarVenta: Button = view.findViewById(R.id.btnGuardarVenta)
         btnGuardarVenta.setOnClickListener {
-            try {
-                val selectedUserIndex = spinner2.selectedItemPosition
-                val selectedProductIndex = spinner3.selectedItemPosition
-                val cantidad = try {
-                    total.text.toString().toInt()
-                } catch (e: NumberFormatException) {
-                    -1
-                }
-
-                if (selectedUserIndex == 0 || selectedProductIndex < 0 || cantidad <= 0) {
-                    Toast.makeText(requireContext(), "Debes ingresar todos los campos correctamente", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                val selectedUser = usuarios[selectedUserIndex]
-                val selectedProduct = productos[selectedProductIndex]
-
-                val idUsuario = selectedUser
-                val idProducto = selectedProduct.nombre
-                val metodoPago = spinner.selectedItem.toString()
-
-                val fechaSeleccionada = calendario.date
-                val fecha = formatDate(fechaSeleccionada)
-
-                val totalVenta = selectedProduct.precio.toFloat() * cantidad
-
-                val venta = Venta(idUsuario, idProducto, metodoPago, fecha, cantidad, totalVenta)
-                if (metodoPago === "Transferencia") {
-                    venta.pagado = false
-                }
-                saveVenta(venta)
-                Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
-                limpiarCampos()
-
-                if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                    showNotification(selectedProduct.nombre, fecha)
-                } else {
-                    requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_CODE)
-                }
-
-                if (metodoPago === "Transferencia") {
-                    val intent = Intent(requireContext(), QRViewActivity::class.java)
-                    startActivity(intent) // Iniciar la nueva actividad
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(requireContext(), "Ocurrió un error", Toast.LENGTH_SHORT).show()
-            }
+            guardarVenta()
         }
 
-        val btnCancelarVenta: Button = view.findViewById(R.id.btnCancelarVenta)
         btnCancelarVenta.setOnClickListener {
             limpiarCampos()
             Toast.makeText(requireContext(), "Operación cancelada", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AddVentaViewModel::class.java)
+    private fun loadUsuarios() {
+        val query = "SELECT id, nombre FROM usuarios"
+        mySQLConnection.selectDataAsync(query) { result ->
+            if (result.isNotEmpty()) {
+                usuarios = result.map {
+                    Usuario(
+                        it["id"]?.toInt() ?: 0,
+                        it["nombre"] ?: ""
+                    )
+                }
+                val usuarioNombres = usuarios.map { it.nombre }
+                val adapterUsuarios = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, usuarioNombres)
+                adapterUsuarios.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerUsuario.adapter = adapterUsuarios
+            } else {
+                Toast.makeText(context, "No se encontraron usuarios", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun loadProductos() {
+        val query = "SELECT idProducto, nombreProducto, precio FROM producto"
+        mySQLConnection.selectDataAsync(query) { result ->
+            if (result.isNotEmpty()) {
+                productos = result.map {
+                    Producto(
+                        it["idProducto"]?.toInt() ?: 0,
+                        it["nombreProducto"] ?: "",
+                        it["precio"]?.toFloat() ?: 0f
+                    )
+                }
+                val productoNombres = productos.map { it.nombre }
+                val adapterProductos = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, productoNombres)
+                adapterProductos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerProducto.adapter = adapterProductos
+            } else {
+                Toast.makeText(context, "No se encontraron productos", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun guardarVenta() {
+        try {
+            val selectedUserIndex = spinnerUsuario.selectedItemPosition
+            val selectedProductIndex = spinnerProducto.selectedItemPosition
+            val cantidad = try {
+                edtTotalVenta.text.toString().toInt()
+            } catch (e: NumberFormatException) {
+                -1
+            }
+
+            if (selectedUserIndex < 0 || selectedProductIndex < 0 || cantidad <= 0) {
+                Toast.makeText(requireContext(), "Debes ingresar todos los campos correctamente", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val selectedUser = usuarios[selectedUserIndex]
+            val selectedProduct = productos[selectedProductIndex]
+
+            val idUsuario = selectedUser.id
+            val idProducto = selectedProduct.id
+            val metodoPagoTexto = spinnerMetodoPago.selectedItem.toString()
+            val metodoPago = when (metodoPagoTexto) {
+                "Tarjeta" -> 1
+                "Efectivo" -> 2
+                "Transferencia" -> 3
+                else -> 0
+            }
+
+            val fechaSeleccionada = calendarView.date
+            val fecha = formatDate(fechaSeleccionada)
+
+            val totalVenta = selectedProduct.precio * cantidad
+
+            val query = "INSERT INTO ventas (usuario, producto, metodo_pago, fecha, cantidad, total) VALUES (?, ?, ?, ?, ?, ?)"
+            val params = arrayOf(idUsuario.toString(), idProducto.toString(), metodoPago.toString(), fecha, cantidad.toString(), totalVenta.toString())
+
+            mySQLConnection.insertDataAsync(query, *params) { result ->
+                if (result) {
+                    Toast.makeText(requireContext(), "Venta guardada", Toast.LENGTH_SHORT).show()
+                    limpiarCampos()
+                    if (ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                        showNotification(selectedProduct.nombre, fecha)
+                    } else {
+                        requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_CODE)
+                    }
+                    if (metodoPago == 3) { // Transferencia
+                        val intent = Intent(requireContext(), QRViewActivity::class.java)
+                        startActivity(intent)
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error al guardar la venta", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Ocurrió un error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun limpiarCampos() {
-        view?.findViewById<EditText>(R.id.edtTotalVenta)?.setText("")
-        view?.findViewById<Spinner>(R.id.spnUsuario)?.setSelection(0)
-        view?.findViewById<Spinner>(R.id.spnMetodoPago)?.setSelection(0)
-        view?.findViewById<Spinner>(R.id.edtProducto)?.setSelection(0)
-        view?.findViewById<CalendarView>(R.id.calendarView3)?.date = System.currentTimeMillis()
-    }
-
-    private fun getAllUsersFromSharedPreferences(): List<String> {
-        val sharedPreferences = requireActivity().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
-        val allEntries = sharedPreferences.all
-        val users = mutableListOf<String>()
-
-        for ((key, _) in allEntries) {
-            if (key.endsWith(".nombre")) {
-                val userId = key.removeSuffix(".nombre").removePrefix("user_")
-                val storedName = sharedPreferences.getString("$userId.nombre", "")
-                users.add(storedName ?: "")
-            }
-        }
-        return users
-    }
-
-    private fun getAllProductsFromSharedPreferences(): List<ProductoData> {
-        val sharedPreferences = requireActivity().getSharedPreferences("ProductPrefs", Context.MODE_PRIVATE)
-        val productListJson = sharedPreferences.getString("productos", null)
-        val type = object : TypeToken<MutableList<ProductoData>>() {}.type
-        val productList: MutableList<ProductoData> = if (productListJson != null) {
-            Gson().fromJson(productListJson, type)
-        } else {
-            mutableListOf()
-        }
-
-        return productList
-    }
-
-    private fun saveVenta(venta: Venta) {
-        val sharedPreferences = requireActivity().getSharedPreferences("VentaPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
-
-        val gson = Gson()
-        val ventaListJson = sharedPreferences.getString("ventas", null)
-        val type = object : TypeToken<MutableList<Venta>>() {}.type
-        val ventaList: MutableList<Venta> = if (ventaListJson != null) {
-            gson.fromJson(ventaListJson, type)
-        } else {
-            mutableListOf()
-        }
-
-        ventaList.add(venta)
-
-        val newVentaListJson = gson.toJson(ventaList)
-        editor.putString("ventas", newVentaListJson)
-        val ventaJson = gson.toJson(venta)
-
-        // Guardar el JSON en SharedPreferences con la clave "venta"
-        editor.putString("venta", ventaJson)
-        //editor.apply() // Aplicar los cambios
-        editor.apply()
+        edtTotalVenta.setText("")
+        spinnerUsuario.setSelection(0)
+        spinnerMetodoPago.setSelection(0)
+        spinnerProducto.setSelection(0)
+        calendarView.date = System.currentTimeMillis()
     }
 
     private fun formatDate(dateInMillis: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = dateInMillis
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(calendar.time)
     }
 
