@@ -1,31 +1,24 @@
 package com.example.proyecto.ui.producto.catalogo
 
-import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto.ModelClasses.Producto
 import com.example.proyecto.ModelClasses.ProductoAdapter
 import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
-import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.example.proyecto.ui.producto.categoria.CategoriaProductoFragment.Category
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 
 class CatalogoProductoFragment : Fragment() {
 
@@ -106,7 +99,7 @@ class CatalogoProductoFragment : Fragment() {
                         categoria = it["nombreCategoria"] ?: "",
                         stock = it["stock"] ?: "",
                         code = it["codigo"] ?: "",
-                        img = it["imagen"] ?: ""
+                        img = it["img"] ?: ""
                     )
                 }
                 filteredProductos = productos

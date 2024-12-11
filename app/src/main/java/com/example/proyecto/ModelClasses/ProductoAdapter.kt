@@ -5,10 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto.R
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.proyecto.R
+
 data class ProductoData(
     val nombre: String,
     val precio: String,
@@ -54,18 +55,9 @@ class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Ada
             descuentoTextView.text = "Descuento: ${producto.descuento}"
             stockTextView.text = "Stock: ${producto.stock}"
             categoriaTextView.text = "Categoría: ${producto.categoria}"
-            if (producto.img.isNullOrEmpty()){
-                Glide.with(itemView.context)
-                    .load(producto.img.toUri())
-                    .into(productImage)
-
-            }
-
-            itemView.setOnClickListener{
-
-
-
-            }
+            Glide.with(itemView.context)
+                .load(producto.img.toUri())
+                .into(productImage)
         }
     }
 }
