@@ -43,14 +43,11 @@ class UsersFragment : Fragment() {
 
         btnBuscar.setOnClickListener {
             val email = etSearchUsers.text.toString()
-
-            if (email.isEmpty()) {
-                Toast.makeText(requireContext(), "Debe ingresar un correo electrónico",
-                    Toast.LENGTH_SHORT).show()
-            } else {
-                searchUserByEmail(email)
-            }
+            searchUserByEmail(email)
         }
+
+        // Load all users initially
+        searchUserByEmail("")
 
         return rootView
     }
@@ -58,33 +55,63 @@ class UsersFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun searchUserByEmail(email: String) {
         loadingOverlay.visibility = FrameLayout.VISIBLE
-        mySQLConnection.selectDataAsync(
-            "SELECT * FROM usuarios WHERE correo = ?",
-            email
-        ) { users ->
-            if (users.isNotEmpty()) {
-                val user = users[0]
-                val usuario = Usuario(
-                    user["nombre"] ?: "",
-                    user["apellido"] ?: "",
-                    user["edad"]?.toInt() ?: 0,
-                    user["correo"] ?: "",
-                    "",
-                    user["img"] ?: ""
-                )
+        if (email.isEmpty()) {
+            loadAllUsers()
+        } else {
+            mySQLConnection.selectDataAsync(
+                "SELECT * FROM usuarios WHERE correo = ?",
+                email
+            ) { users ->
+                if (users.isNotEmpty()) {
+                    val user = users[0]
+                    val usuario = Usuario(
+                        user["nombre"] ?: "",
+                        user["apellido"] ?: "",
+                        user["edad"]?.toInt() ?: 0,
+                        user["correo"] ?: "",
+                        "",
+                        user["img"] ?: ""
+                    )
 
-                user1.text = "Nombre: ${usuario.nombre}\nApellido: ${usuario.apellido}\nEdad:" +
-                        " ${usuario.edad}\nCorreo: ${usuario.correoElectronico}"
+                    user1.text = "Nombre: ${usuario.nombre}\nApellido: ${usuario.apellido}\nEdad:" +
+                            " ${usuario.edad}\nCorreo: ${usuario.correoElectronico}"
 
-                user1.setOnClickListener {
-                    val intent = Intent(requireContext(), UserInfoActivity::class.java)
-                    intent.putExtra("usuario", usuario)
-                    startActivity(intent)
+                    user1.setOnClickListener {
+                        val intent = Intent(requireContext(), UserInfoActivity::class.java)
+                        intent.putExtra("usuario", usuario)
+                        startActivity(intent)
+                    }
+                } else {
+                    user1.text = "Usuario no encontrado"
                 }
-            } else {
-                user1.text = "Usuario no encontrado"
+                loadingOverlay.visibility = FrameLayout.GONE
             }
         }
-        loadingOverlay.visibility = FrameLayout.GONE
+    }
+
+    private fun loadAllUsers() {
+        mySQLConnection.selectDataAsync(
+            "SELECT * FROM usuarios"
+        ) { users ->
+            if (users.isNotEmpty()) {
+                val userInfo = StringBuilder()
+                for (user in users) {
+                    val usuario = Usuario(
+                        user["nombre"] ?: "",
+                        user["apellido"] ?: "",
+                        user["edad"]?.toInt() ?: 0,
+                        user["correo"] ?: "",
+                        "",
+                        user["img"] ?: ""
+                    )
+                    userInfo.append("Nombre: ${usuario.nombre}\nApellido: ${usuario.apellido}\nEdad:" +
+                            " ${usuario.edad}\nCorreo: ${usuario.correoElectronico}\n\n")
+                }
+                user1.text = userInfo.toString()
+            } else {
+                user1.text = "No hay usuarios disponibles"
+            }
+            loadingOverlay.visibility = FrameLayout.GONE
+        }
     }
 }
