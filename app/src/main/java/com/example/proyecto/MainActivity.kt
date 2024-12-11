@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
-        mediaPlayer = MediaPlayer.create(this, R.raw.background_music)
+        mediaPlayer = MediaPlayer.create(this, R.raw.double_p)
         mediaPlayer.isLooping = true
         mediaPlayer.start()
         appBarConfiguration = AppBarConfiguration(
