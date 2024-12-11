@@ -12,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -20,6 +22,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
 import com.example.proyecto.QRViewActivity
+import com.example.proyecto.ui.producto.add.AddProductoViewModel
+import com.google.zxing.integration.android.IntentIntegrator
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,11 +45,14 @@ class AddVentaFragment : Fragment() {
     private lateinit var btnGuardarVenta: Button
     private lateinit var btnCancelarVenta: Button
 
+    private lateinit var scanProduct: Button
+
+    private var code:String=""
     private var usuarios: List<Usuario> = listOf()
     private var productos: List<Producto> = listOf()
 
     data class Usuario(val id: Int, val nombre: String)
-    data class Producto(val id: Int, val nombre: String, val precio: Float)
+    data class Producto(val id: Int, val nombre: String, val precio: Float,val code:String)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +75,7 @@ class AddVentaFragment : Fragment() {
         calendarView = view.findViewById(R.id.calendarView3)
         btnGuardarVenta = view.findViewById(R.id.btnGuardarVenta)
         btnCancelarVenta = view.findViewById(R.id.btnCancelarVenta)
+        scanProduct=view.findViewById(R.id.btnQRVenta)
 
         loadUsuarios()
         loadProductos()
@@ -76,6 +84,35 @@ class AddVentaFragment : Fragment() {
         val adapterMetodoPago = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, opcionesMetodoPago)
         adapterMetodoPago.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerMetodoPago.adapter = adapterMetodoPago
+
+        scanResultLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            val intentResult = IntentIntegrator.parseActivityResult(
+                result.resultCode, result.data
+            )
+
+
+            if (intentResult != null) {
+                if (intentResult.contents == null) {
+                    Toast.makeText(requireContext(), "Lectura cancelada", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireContext(), "Código Leído", Toast.LENGTH_SHORT).show()
+                    code = intentResult.contents
+
+                    getProductFromCode()
+
+                    Toast.makeText(requireContext(), code.toString(), Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Error al escanear el código", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+        scanProduct.setOnClickListener {
+            escanearCodigo()
+        }
 
         btnGuardarVenta.setOnClickListener {
             guardarVenta()
@@ -108,14 +145,15 @@ class AddVentaFragment : Fragment() {
     }
 
     private fun loadProductos() {
-        val query = "SELECT idProducto, nombreProducto, precio FROM producto"
+        val query = "SELECT idProducto, nombreProducto, precio,qrcode FROM producto"
         mySQLConnection.selectDataAsync(query) { result ->
             if (result.isNotEmpty()) {
                 productos = result.map {
                     Producto(
                         it["idProducto"]?.toInt() ?: 0,
                         it["nombreProducto"] ?: "",
-                        it["precio"]?.toFloat() ?: 0f
+                        it["precio"]?.toFloat() ?: 0f,
+                        it["qrcode"]?.toString()?:""
                     )
                 }
                 val productoNombres = productos.map { it.nombre }
@@ -249,4 +287,93 @@ class AddVentaFragment : Fragment() {
             }
         }
     }
+
+    // Función para iniciar el escaneo
+    private fun escanearCodigo() {
+        val intentIntegrator = IntentIntegrator.forSupportFragment(this)
+        intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+        intentIntegrator.setPrompt("Lector de códigos")
+        intentIntegrator.setCameraId(0)
+        intentIntegrator.setBeepEnabled(true)
+        intentIntegrator.setBarcodeImageEnabled(true)
+
+        // Iniciar escaneo usando el launcher
+        scanResultLauncher.launch(intentIntegrator.createScanIntent())
+    }
+
+    /*override*/ fun onActivityResultDeprecated(requestCode: Int, resultCode: Int, data: Intent?) {
+//Instancia para recibir el resultado (Lectura de código)
+
+        val intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+//Validar que no este vacia
+        if (intentResult != null) {
+//Validar leyo información
+            if (intentResult.contents == null) {
+//Mensaje informativo - no hubo datos
+                Toast.makeText(requireContext(), "Lectura cancelada", Toast.LENGTH_SHORT).show()
+            } else {
+//Mensaje informativo - si hubo datos
+                Toast.makeText(requireContext(), "Codigo Leido", Toast.LENGTH_SHORT).show()
+//Colocar el codigo en la caja de texto
+                code=intentResult.contents
+
+                //Toast.makeText(requireContext(),"proceso2"+ code.toString(), Toast.LENGTH_SHORT).show()
+            } //if-else = null
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }//if-else !=null
+    }//onActivityResult
+
+    private lateinit var scanResultLauncher: ActivityResultLauncher<Intent>
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(AddVentaViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+    private fun getProductFromCodeD(){
+        if (!code.isNullOrEmpty()){
+            val query = "SELECT idProducto, nombreProducto, precio FROM producto WHERE qrcode='${code.toString()}'"
+            var i:Int=0
+            while (productos[i].code!=code){
+                i++
+            }
+            spinnerProducto.setSelection(i)
+
+            Toast.makeText(requireContext(), "proceso3"+spinnerProducto.selectedItem.toString(), Toast.LENGTH_SHORT).show()
+        }
+    }
+    private fun getProductFromCode() {
+        if (!code.isNullOrEmpty()) {
+            val query = "SELECT idProducto, nombreProducto, precio FROM producto WHERE qrcode='${code.toString()}'"
+            mySQLConnection.selectDataAsync(query) { result ->
+                if (result.isNotEmpty()) {
+                    val producto = Producto(
+                        result[0]["idProducto"]?.toInt() ?: 0,
+                        result[0]["nombreProducto"] ?: "",
+                        result[0]["precio"]?.toFloat() ?: 0f,
+                        code
+                    )
+                    // Busca el índice del producto
+                    val index = productos.indexOfFirst { it.code == producto.code }
+
+                    if (index != -1) {
+                        requireActivity().runOnUiThread {
+                            spinnerProducto.setSelection(index)
+                            Toast.makeText(
+                                requireContext(),
+                                "Seleccionado: ${productos[index].nombre}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Producto no encontrado en el Spinner", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Producto no encontrado en la base de datos", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
 }
