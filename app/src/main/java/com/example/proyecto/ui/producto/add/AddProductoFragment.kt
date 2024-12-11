@@ -425,7 +425,7 @@ class AddProductoFragment : Fragment() {
     }
     private fun encodeImageToBase64(image: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        image.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
         val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.NO_WRAP) // Asegúrate de usar Base64.NO_WRAP para evitar saltos de línea
     }

@@ -3,10 +3,12 @@ package com.example.proyecto.ModelClasses
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
-
+import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 data class ProductoData(
     val nombre: String,
     val precio: String,
@@ -15,7 +17,7 @@ data class ProductoData(
     val stock: String,
     val categoria: String,
     val code:String,
-    val img: String = "",
+    val img: String,
 
     )
 class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Adapter<ProductoAdapter.ProductoViewHolder>(){
@@ -43,6 +45,7 @@ class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Ada
         private val descuentoTextView: TextView = itemView.findViewById(R.id.textViewDescuento)
         private val stockTextView: TextView = itemView.findViewById(R.id.textViewStock)
         private val categoriaTextView: TextView = itemView.findViewById(R.id.textViewCategoria)
+        private val productImage:ImageView=itemView.findViewById(R.id.imageViewProducto)
 
         fun bind(producto: ProductoData) {
             nombreTextView.text = "Nombre: ${producto.nombre}"
@@ -51,6 +54,18 @@ class ProductoAdapter(private var productos:List<ProductoData>):RecyclerView.Ada
             descuentoTextView.text = "Descuento: ${producto.descuento}"
             stockTextView.text = "Stock: ${producto.stock}"
             categoriaTextView.text = "Categoría: ${producto.categoria}"
+            if (producto.img.isNullOrEmpty()){
+                Glide.with(itemView.context)
+                    .load(producto.img.toUri())
+                    .into(productImage)
+
+            }
+
+            itemView.setOnClickListener{
+
+
+
+            }
         }
     }
 }
