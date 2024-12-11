@@ -1,9 +1,14 @@
 package com.example.proyecto.ui.producto.add
 
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -22,10 +28,12 @@ import com.example.proyecto.ModelClasses.ProductoData
 import com.example.proyecto.ModelClasses.Utils
 import com.example.proyecto.MySQLConnection
 import com.example.proyecto.R
+import com.example.proyecto.Utils.fetchData
 import com.example.proyecto.ui.producto.addcategoria.AddCategoriaFragment
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.zxing.integration.android.IntentIntegrator
+import java.io.ByteArrayOutputStream
 
 class AddProductoFragment : Fragment() {
 
@@ -48,6 +56,11 @@ class AddProductoFragment : Fragment() {
     private lateinit var spnCategory: Spinner
     private lateinit var btnGuardarProducto: Button
     private lateinit var btnCancelar: Button
+    private lateinit var btnImagen:Button
+
+    private lateinit var imagePickerLauncher: ActivityResultLauncher<Intent>
+
+    private var prodImageUrl: String? = null
 
     //private var categoriaSeleccionada: String = ""
     private lateinit var btnBuscarProducto: Button
@@ -56,6 +69,7 @@ class AddProductoFragment : Fragment() {
     private lateinit var scanProduct: Button
     private lateinit var code: TextView
     private lateinit var mySQLConnection: MySQLConnection
+    private lateinit var prodImage: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,8 +87,33 @@ class AddProductoFragment : Fragment() {
         btnEliminarProducto = view.findViewById(R.id.btnCancelar)
         btnBuscarProducto = view.findViewById(R.id.btnBuscarProducto)
         scanProduct = view.findViewById(R.id.btnProductQR)
+        btnImagen=view.findViewById(R.id.btnCargarImagen)
         code = view.findViewById(R.id.tvQR)
+        prodImage=view.findViewById(R.id.ivProductoImagen)
 
+
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK && result.data != null) {
+                val selectedImageUri = result.data!!.data
+                if (selectedImageUri != null) {
+                    try {
+                        val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedImageUri)
+                        prodImage.setImageBitmap(bitmap)
+                        val encodedImage = encodeImageToBase64(bitmap)
+                        fetchData(requireContext(), encodedImage) { imageUrl ->
+                            if (imageUrl != null) {
+                                prodImageUrl = imageUrl
+                            } else {
+                                Toast.makeText(requireContext(), "Error al cargar la imagen. Intente nuevamente.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+                    } catch (e: Exception) {
+                        Log.e("UserInfoActivity", "Error processing selected image", e)
+                    }
+                }
+            }
+        }
         scanResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -99,23 +138,23 @@ class AddProductoFragment : Fragment() {
         scanProduct.setOnClickListener { escanearCodigo() }
 
         setupSpinner()
+
         btnGuardarProducto.setOnClickListener {
+            if (prodImageUrl == null) {
+                Toast.makeText(requireContext(), "La imagen aún no se ha cargado. Por favor, espere.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             if (validateInputs()) {
-                val nombre = edtNombre.text.toString()
-                val precio = edtPrecio.text.toString()
-                val descripcion = edtDescripcion.text.toString()
-                val descuento = "0"
-                val stock = edtStock.text.toString()
-
                 val producto = ProductoData(
-                    nombre,
-                    precio,
-                    descripcion,
-                    descuento,
-                    stock,
-                    categoriaSeleccionada.name,
-                    code.toString()
-
+                    nombre = edtNombre.text.toString(),
+                    precio = edtPrecio.text.toString(),
+                    descripcion = edtDescripcion.text.toString(),
+                    descuento = "0",
+                    stock = edtStock.text.toString(),
+                    categoria = categoriaSeleccionada.name,
+                    code = code.text.toString(),
+                    img = prodImageUrl!!
                 )
 
                 saveProductToDatabase(producto)
@@ -123,10 +162,15 @@ class AddProductoFragment : Fragment() {
             }
         }
 
+
         btnEliminarProducto.setOnClickListener {
             eliminarProducto()
         }
         btnBuscarProducto.setOnClickListener { buscarProducto() }
+        btnImagen.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            imagePickerLauncher.launch(intent)
+        }
 
         return view
     }
@@ -252,6 +296,10 @@ class AddProductoFragment : Fragment() {
             return false
         }
 
+        if (prodImageUrl==null){
+            showToast("Por favor, ingrese una imagen.")
+            return false
+        }
 
         if (precio.isEmpty()) {
             showToast("Por favor, ingrese el precio del producto.")
@@ -374,6 +422,12 @@ class AddProductoFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error al guardar el producto", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun encodeImageToBase64(image: Bitmap): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+        return Base64.encodeToString(byteArray, Base64.NO_WRAP) // Asegúrate de usar Base64.NO_WRAP para evitar saltos de línea
     }
 
 
