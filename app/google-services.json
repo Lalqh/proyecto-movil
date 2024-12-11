@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "507586357975",
+    "project_id": "la-esquina-del-sabor-f7197",
+    "storage_bucket": "la-esquina-del-sabor-f7197.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507586357975:android:5f5de85cc6bcf849f91e92",
+        "android_client_info": {
+          "package_name": "com.example.proyecto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507586357975-hu87omnm6dpu3d4so81khpdqt49ndqr4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto",
+            "certificate_hash": "2f3c021061331fa32fa94128d2ed39136bc54b1f"
+          }
+        },
+        {
+          "client_id": "507586357975-q94apqb7qk3r5o4bk5s66esvkr577v23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyecto",
+            "certificate_hash": "6d453f34fb9d01e05f45f2c0be83f9772c876268"
+          }
+        },
+        {
+          "client_id": "507586357975-n6saus98ndok9j058bj51cm7u21q6kg0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_IqVk4ByyCyQQ6gQhrK5Ma5SOz_3y9OI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507586357975-n6saus98ndok9j058bj51cm7u21q6kg0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

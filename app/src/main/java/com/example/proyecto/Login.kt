@@ -15,12 +15,20 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyecto.Utils.EncryptionUtils
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 
 class Login : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
     private lateinit var loadingOverlay: FrameLayout
     private val validNfcTagId = "04314B0A276680"
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 9001
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +37,7 @@ class Login : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.spnProduct)
         val etPassword = findViewById<EditText>(R.id.etPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val btnLoginWithGoogle = findViewById<Button>(R.id.btnLoginWithGoogle)
         val btnExit = findViewById<Button>(R.id.btnExit)
         loadingOverlay = findViewById(R.id.loadingOverlay)
         val MySQLConnection = MySQLConnection(this)
@@ -37,6 +46,17 @@ class Login : AppCompatActivity() {
         if (nfcAdapter == null) {
             Toast.makeText(this, "NFC no está disponible en este dispositivo", Toast.LENGTH_SHORT).show()
             Log.v("NFC", "Este dispositivo no tiene soporte NFC")
+        }
+
+        // Configure Google Sign-In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        // Sign out to ensure account picker is shown every time
+        googleSignInClient.signOut().addOnCompleteListener(this) {
+            // Update UI accordingly if needed
         }
 
         btnLogin.setOnClickListener {
@@ -89,8 +109,61 @@ class Login : AppCompatActivity() {
             }
         }
 
+        btnLoginWithGoogle.setOnClickListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
         btnExit.setOnClickListener {
             finish()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
+    }
+
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            // Signed in successfully, show authenticated UI.
+            val email = account?.email
+            if (email != null) {
+                // Check if the user exists in the database
+                val MySQLConnection = MySQLConnection(this)
+                MySQLConnection.selectDataAsync(
+                    "SELECT * FROM usuarios WHERE correo = ?",
+                    email
+                ) { user ->
+                    if (user.isNotEmpty()) {
+                        val tipo_usaurio = user[0]["tipo_usuario"]
+                        val id = user[0]["id"].toString().toInt()
+                        val nombre = user[0]["nombre"]
+
+                        if (tipo_usaurio == "1") {
+                            loginAsAdmin()
+                            saveUserId(id)
+                        } else {
+                            Toast.makeText(this, "Bienvenido ${nombre}", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.putExtra("is_admin", false)
+                            intent.putExtra("load_home_fragment", true)
+                            saveUserId(id)
+                            startActivity(intent)
+                        }
+                    } else {
+                        Toast.makeText(this, "No existe un usuario con este correo.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } catch (e: ApiException) {
+            Log.w("Google Sign-In", "signInResult:failed code=" + e.statusCode)
+            Toast.makeText(this, "Error al iniciar sesión con Google", Toast.LENGTH_SHORT).show()
         }
     }
 
