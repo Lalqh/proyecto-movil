@@ -127,20 +127,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        if(::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
+        if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
             mediaPlayer.pause()
         }
     }
+
     override fun onResume() {
         super.onResume()
-        if(::mediaPlayer.isInitialized && !mediaPlayer.isPlaying) {
+        if (::mediaPlayer.isInitialized && !mediaPlayer.isPlaying) {
             mediaPlayer.start()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(::mediaPlayer.isInitialized) {
+        if (::mediaPlayer.isInitialized) {
             mediaPlayer.stop()
             mediaPlayer.release()
         }
@@ -157,8 +158,23 @@ class MainActivity : AppCompatActivity() {
                 logout()
                 true
             }
+            R.id.action_mute -> {
+                toggleMusic()
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun toggleMusic(){
+        if(::mediaPlayer.isInitialized){
+            if(mediaPlayer.isPlaying){
+                mediaPlayer.pause()
+                Toast.makeText(this, "Música pausada", Toast.LENGTH_SHORT).show()
+            }else{
+                mediaPlayer.start()
+                Toast.makeText(this, "Música reanudada", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
