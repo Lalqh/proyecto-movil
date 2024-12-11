@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         "¡Promoción de verano! Descuentos en productos frescos y naturales."
     )
     private val notificationInterval = 10000L // 10 seconds
-
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +72,9 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val navController = navHostFragment.navController
-
+        mediaPlayer = MediaPlayer.create(this, R.raw.background_music)
+        mediaPlayer.isLooping = true
+        mediaPlayer.start()
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
@@ -120,6 +123,27 @@ class MainActivity : AppCompatActivity() {
         menu.findItem(R.id.nav_horario)?.isVisible = !isAdmin
         menu.findItem(R.id.ubicacion)?.isVisible = !isAdmin
         menu.findItem(R.id.ubi_proveedores)?.isVisible = isAdmin
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        if(::mediaPlayer.isInitialized && !mediaPlayer.isPlaying) {
+            mediaPlayer.start()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(::mediaPlayer.isInitialized) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
